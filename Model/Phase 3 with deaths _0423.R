@@ -21,7 +21,7 @@ seir1 <- function(t, x, parms) {
     dI  <- (E*pS)/alpha - I*(gam) 
     dIh <- I*hosp*gam - Ih*1/8
     dA  <- (E*(1-pS))/alpha - A*gam
-    dR  <- I*(gam*(1-hosp+cc)) + A*gam 
+    dR  <- I*(gam*(1-hosp-cc)) + A*gam 
     dRh <- Ih*1/8
 
     dIc <- (I*cc + I2*cc2 + I3*cc3)*gam - min(Ic,cap)*(1/10) - max(((Ic + I*cc*gam + I2*cc2*gam + I3*cc3*gam)-cap),0)    
@@ -35,7 +35,7 @@ seir1 <- function(t, x, parms) {
     dI2  <- (E2*pS2)/alpha - I2*(gam) 
     dIh2 <- I2*hosp2*gam - Ih2*1/8
     dA2  <- (E2*(1-pS2))/alpha - A2*gam
-    dR2  <- I2*(gam*(1-hosp2+cc2)) + A2*gam 
+    dR2  <- I2*(gam*(1-hosp2-cc2)) + A2*gam 
     dRh2 <- Ih2*1/8
 
     dS3  <-    - (I+I2+I3)*(beta*(1-(maska*0.03))*lambda*S3*(1-siI)*(1-ef3))/N - (beta*S3*(1-(maska*0.2667))*(A+A2+A3)*(1-ef3))/N 
@@ -43,7 +43,7 @@ seir1 <- function(t, x, parms) {
     dI3  <- (E3*pS3)/alpha - I3*(gam) 
     dIh3 <- I3*hosp3*gam - Ih3*1/8
     dA3  <- (E3*(1-pS3))/alpha - A3*gam
-    dR3  <- I3*(gam*(1-hosp3+cc3)) + A3*gam 
+    dR3  <- I3*(gam*(1-hosp3-cc3)) + A3*gam 
     dRh3 <- Ih3*1/8
 
     der <- c(dS,  dE,  dI,  dIh,  dA,  dR,  dRh, dIc, dRc,  dD,
