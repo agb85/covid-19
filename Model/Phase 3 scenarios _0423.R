@@ -22,7 +22,7 @@ seir1 <- function(t, x, parms) {
     dIh <- I*hosp*gam - Ih*1/8
     dIc <- I*cc*gam - Ic*(1/10) 
     dA  <- (E*(1-pS))/alpha - A*gam
-    dR  <- I*(gam*(1-hosp+cc)) + A*gam 
+    dR  <- I*(gam*(1-hosp-cc)) + A*gam 
     dRh <- Ih*1/8
     dRc <- (1-dc)*Ic*1/10
     dD  <-     dc*Ic*(1/10) 
@@ -34,7 +34,7 @@ seir1 <- function(t, x, parms) {
     dIh2 <- I2*hosp2*gam - Ih2*1/8
     dIc2 <- I2*cc2*gam - Ic2*(1/10) 
     dA2  <- (E2*(1-pS2))/alpha - A2*gam
-    dR2  <- I2*(gam*(1-hosp2+cc2)) + A2*gam 
+    dR2  <- I2*(gam*(1-hosp2-cc2)) + A2*gam 
     dRh2 <- Ih2*1/8
     dRc2 <- (1-dc)*Ic2*1/10
     dD2  <-     dc*Ic2*(1/10) 
@@ -45,7 +45,7 @@ seir1 <- function(t, x, parms) {
     dIh3 <- I3*hosp3*gam - Ih3*1/8
     dIc3 <- I3*cc3*gam - Ic3*(1/10) 
     dA3  <- (E3*(1-pS3))/alpha - A3*gam
-    dR3  <- I3*(gam*(1-hosp3+cc3)) + A3*gam 
+    dR3  <- I3*(gam*(1-hosp3-cc3)) + A3*gam 
     dRh3 <- Ih3*1/8
     dRc3 <- (1-dc)*Ic3*1/10
     dD3  <-    dc*Ic3*(1/10) 
