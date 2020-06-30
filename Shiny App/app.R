@@ -35,7 +35,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                    p(HTML(paste0('For full details of the implementation of the other 
                                                  aspects of the model see the documentation tab or the Colorado COVID-19 
                                                  Modeling Report ',
-                                                 a(href = 'http://www.ucdenver.edu/academics/colleges/PublicHealth/coronavirus/Pages/Modeling-Results.aspx', 
+                                                 a(href = 'SEIR_Documentation_29290628.pdf', 
                                                    'available here'),'.')))
                                    # h4("Cases and Hospitalizations"),
                                    # p(HTML("The first set of outputs indicate the projected number of 
@@ -124,12 +124,21 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           ),
                           
                           fluidRow(
-                            column(4, 
-                                   sliderTextInput(inputId="ramp",
-                                                   label="Ramp-up of case detection and isolation",
-                                                   grid = TRUE,
-                                                   choices = c("No", "Yes"),
-                                                   width='100%'))
+                            # column(4, 
+                            #        sliderTextInput(inputId="ramp",
+                            #                        label="Ramp-up of case detection and isolation",
+                            #                        grid = TRUE,
+                            #                        choices = c("No", "Yes"),
+                            #                        width='100%')),
+                            column(4, p(tags$b("Ramp-up of case detection and isolation"))),
+
+                          ),
+                          
+                          fluidRow(
+                            column(4,
+                                   materialSwitch(inputId="ramp",
+                                                  status = "success",
+                                               value=FALSE)),
                           ),
                           
                           br(),
@@ -315,7 +324,8 @@ server <- function(input, output) {
                t6 = 129,
                t7 = difftime(as.Date("2020-06-12"), as.Date("2020-01-23")),
                t8 = 205,
-               ramp = ifelse(input$ramp == "Yes", .00407, 0),
+               #ramp = ifelse(input$ramp == "Yes", .00407, 0),
+               ramp = ifelse(input$ramp, .00407, 0),
                maska = 0.5,
                maskb = input$maskb,
                kap = input$kap, #average number of contacts traced per detected case
