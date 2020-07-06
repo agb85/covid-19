@@ -69,7 +69,7 @@ mainBarPlot <- function(out,
     
     ## Add line for ICU Capacity if selected (line label added differently when Infections included in model)
     ## Adjust label position based on maximum values being plotted
-    offset <- max(max(plotData$Sum) / 22, 200)
+    offset <- max(max(plotData$Sum) / 22, 100)
     offsetCTC <- ifelse(offset > 800 & ICUCapLine, -offset, offset)
     
     ## Add lines

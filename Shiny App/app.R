@@ -19,123 +19,122 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                  
                  tabPanel("Model",
                           # Application title
-                          titlePanel("Modeling COVID-19 in Colorado"),
+                          fluidRow(column(1), 
+                                   column(10, h3("Modeling COVID-19 in Colorado")),
+                                   column(1)),
                           
                           # App introductory text
                           fluidRow(
-                            column(12, 
+                            column(1),
+                            column(10, 
                                    h3("How to use this app"),
-                                   p("This app allows the user to estimate epidemic trajectories 
-                                     under scenarios that can be altered interactively. In this 
-                                     version of the app, the only aspects that are changeable are 
-                                     those concerning social distancing, mask wearing, and contact tracing. With the sliders at the 
-                                     bottom of the page, you can alter the efficacy of certain social 
-                                     distancing levels, when those take effect, and whether they 
-                                     differentially apply to those over/under 65 years of age."),
-                                   p(HTML(paste0('For full details of the implementation of the other 
-                                                 aspects of the model see the documentation tab or the Colorado COVID-19 
-                                                 Modeling Report ',
-                                                 a(href = 'SEIR_Documentation_29290628.pdf', 
-                                                   'available here'),'.')))
-                                   # h4("Cases and Hospitalizations"),
-                                   # p(HTML("The first set of outputs indicate the projected number of 
-                                   #        new <i>daily</i> cases and hospitalizations.")),
-                                   # h4("Deaths"),
-                                   # p(HTML("Additionally, the model also provides projections of either the daily or  
-                                   #        <i>cumulative</i> number of deaths up to the specified date."))
-                                   )
+                                   p("This app allows the user to generate projections of COVID-19 cases, hospital needs
+                                     and deaths in Colorado under scenarios that can be altered interactively. It is 
+                                     intended to show the potential impact of the four key control measures: social 
+                                     distancing, mask wearing, identification and isolation of cases, and contact 
+                                     tracing—the key tools used to limit the spread of the SARS-CoV-2 virus, which 
+                                     causes the illness COVID-19."),
+                                   p("For details regarding the model and underlying assumptions, see the documentation 
+                                     tab.")
+                                   # p(HTML(paste0('For full details of the implementation of the other 
+                                   #               aspects of the model see the documentation tab or the Colorado COVID-19 
+                                   #               Modeling Report ',
+                                   #               a(href = 'SEIR_Documentation_29290628.pdf', 
+                                   #                 'available here'),'.')))
+                                   ),
+                            column(1)
                             ),
                           
                           br(),
                           
                           # Plot(s) and checkboxes
-                          sidebarLayout(
-                            # Checkboxes
-                            sidebarPanel(
-                              prettyCheckbox(inputId = "Infections", label = "Symptomatic Infections",
-                                             outline = TRUE, status = "success", value = FALSE),
-                              prettyCheckbox(inputId = "Hospitalizations", label = "Non-ICU Hospitalizations",
-                                             outline = TRUE, status = "info", value = TRUE),
-                              prettyCheckbox(inputId = "CriticalCare", label = "Critical Care",
-                                             outline = TRUE, status = "warning", value = TRUE),
-                              prettyCheckbox(inputId = "Deaths", label = "Deaths",
-                                             outline = TRUE, status = "danger", value = TRUE),
-                              prettyCheckbox(inputId = "ICUCapLine", label = "ICU Capacity",
-                                             outline = TRUE, status = "default", value = TRUE),
-                              prettyCheckbox(inputId = "CTCapLine", label = "Contact Tracing Capacity",
-                                             outline = TRUE, value = FALSE),
-                              prettyRadioButtons(inputId = "Daily", label = " ",
-                                                 choices = list("Daily" = TRUE, "Cumulative" = FALSE),
-                                                 shape = "square", status = "default"),
-                              br(),
-                              p("Contact:"),
-                              p(HTML(paste0(a(href = 'mailto:covid19cu@gmail.com',
-                                              'CU COVID-19 Modeling Team')))),
-                              p(HTML(paste0(a(href = 'https://github.com/agb85/covid-19',
-                                              'Github Link')))),
-                              p("Updated 6/17/20"),
-                              width = 3
-                            ),
-                            
-                            
-                            #position = "right",
-                            
-                            # Plot(s)
-                            mainPanel(plotlyOutput("p5", height = "500px"), width = 9)
+                          fluidRow(
+                            column(1),
+                            column(10, 
+                                  sidebarLayout(
+                                      # Checkboxes
+                                      sidebarPanel(
+                                        prettyCheckbox(inputId = "Infections", label = "Symptomatic Infections",
+                                                       outline = TRUE, status = "success", value = FALSE),
+                                        prettyCheckbox(inputId = "Hospitalizations", label = "Non-ICU Hospitalizations",
+                                                       outline = TRUE, status = "info", value = TRUE),
+                                        prettyCheckbox(inputId = "CriticalCare", label = "Critical Care",
+                                                       outline = TRUE, status = "warning", value = TRUE),
+                                        prettyCheckbox(inputId = "Deaths", label = "Deaths",
+                                                       outline = TRUE, status = "danger", value = TRUE),
+                                        prettyCheckbox(inputId = "ICUCapLine", label = "ICU Capacity",
+                                                       outline = TRUE, status = "default", value = TRUE),
+                                        prettyCheckbox(inputId = "CTCapLine", label = "Contact Tracing Capacity",
+                                                       outline = TRUE, value = FALSE),
+                                        prettyRadioButtons(inputId = "Daily", label = " ",
+                                                           choices = list("Daily" = TRUE, "Cumulative" = FALSE),
+                                                           shape = "square", status = "default"),
+                                        br(),
+                                        p("Contact:"),
+                                        p(HTML(paste0(a(href = 'mailto:co.sph.covid@ucdenver.edu',
+                                                        'CU COVID-19 Modeling Team')))),
+                                        p(HTML(paste0(a(href = 'https://github.com/agb85/covid-19',
+                                                        'Github Link')))),
+                                        p("Updated 7/3/20"),
+                                        width = 3
+                                      ),
+                                    
+                                      
+                                      # Plot(s)
+                                      mainPanel(plotlyOutput("p5", height = "500px"), width = 9)
+                                    ),
+                                    ),
+                            column(1)
                           ),
                           
                           br(),
                           
                           fluidRow(
-                            column(4, chooseSliderSkin("Nice"),
+                            column(1),
+                            column(3, chooseSliderSkin("Nice"),
                                    sliderInput(inputId="ef1_2",
-                                               label="Current social distancing level among under 65",
+                                               label="Social distancing by people under age 65 (present to 8/14)",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
-                            # column(4, 
-                            #        sliderInput(inputId="ef4_2", 
-                            #                    label="Current social distancing level among over 65",
-                            #                    value=0.65, min=0, max=1, width='100%', step = .01)),
-                            
-                            column(4, sliderInput(inputId="maskb", label="Proportion using masks, starting 4/27",
-                                                  value=0.5, min=0, max=1, width='100%', step = .01)),
-                            column(4, 
-                                   sliderInput(inputId="kap", 
-                                               label="Average number of contacts successfully traced and quarantined per case, starting 5/27",
-                                               value=0, min=0, max=5, width='100%', step = 1)),
+                            column(3,
+                                   sliderInput(inputId="ef1_3",
+                                               label="Social distancing by people under age 65 (starting 8/15)",
+                                               value=0.65, min=0, max=1, width='100%', step = .01)),
+                            column(3, 
+                                   sliderInput(inputId="ef4p", 
+                                               label="What proportion of adults age 65+ practice high social distancing?",
+                                               value=0.65, min=0, max=1, width='100%', step = .01)),
+                            column(1)
                             
                           ),
                           
                           fluidRow(
-                            column(4,
-                                   sliderInput(inputId="ef1_3",
-                                               label="Social distancing level among under 65, starting 8/15",
-                                               value=0.65, min=0, max=1, width='100%', step = .01)),
-                            column(4, 
-                                   sliderInput(inputId="ef4p", 
-                                               label="Proportion of adults over 65 practicing high social distancing levels",
-                                               value=0.65, min=0, max=1, width='100%', step = .01)),
-                            column(4, 
+                            column(1),
+                            column(3, sliderInput(inputId="maskb", label="What proportion of the population wears masks 
+                                                  in public spaces? ",
+                                                  value=0.5, min=0, max=1, width='100%', step = .01)),
+                            column(3, 
                                    sliderTextInput(inputId="pi",
-                                                   label="Average time lag between report and contact tracing",
+                                                   label="How quickly are contacts successfully traced after case report?",
                                                    grid = TRUE,
                                                    choices = c("24 Hours", "48 Hours", "72 Hours"),
-                                                   width='100%'))
+                                                   width='100%')),
+                            column(3, 
+                                   sliderInput(inputId="kap", 
+                                               label="How many contacts are successfully traced per case?",
+                                               value=0, min=0, max=5, width='100%', step = 1)),
+                            column(1)
                             
                           ),
                           
                           fluidRow(
-                            # column(4, 
-                            #        sliderTextInput(inputId="ramp",
-                            #                        label="Ramp-up of case detection and isolation",
-                            #                        grid = TRUE,
-                            #                        choices = c("No", "Yes"),
-                            #                        width='100%')),
-                            column(4, p(tags$b("Ramp-up of case detection and isolation"))),
+                            column(1),
+                            column(3, p(tags$b("Improve case detection and isolation "))),
 
                           ),
                           
                           fluidRow(
-                            column(4,
+                            column(1),
+                            column(3,
                                    materialSwitch(inputId="ramp",
                                                   status = "success",
                                                value=FALSE)),
@@ -144,113 +143,153 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           br(),
                           
                           fluidRow(
-                            column(12,
+                            column(1),
+                            column(10,
                                    h4("Adjustable Model Parameters"), 
-                                   p("The top two sliders on the left allow you to adjust the level of
-                                     social distancing that applies to the general population (all 
-                                     residents under age 65). And the slider in the middle allows you to 
-                                     adjust the proportion of older adults (over 65) that practice high 
-                                     levels (80%) of social distancing.
-                                     "),
-                                   p(HTML(paste0('Since the expiration 
-                                                 of the "Stay at Home" orders (on April 27) (',
-                                                 a(href = 'https://covid19.colorado.gov/safer-at-home', 
-                                                   'details here'),
-                                                 ') recommendations for reductions in social 
-                                                 contacts have varied by age.'))),
-                                   p("This model uses a single parameter to summarize social distancing 
-                                     as the percent decrease in effective contacts between susceptible 
-                                     and infectious individuals. This parameter accounts for social 
-                                     distancing policies intended to avoid contact altogether (e.g., 
-                                     through workplace and school closures) as well as policies and 
-                                     individual behaviors to reduce potential contact with the virus 
-                                     (e.g., maintaining at least 6 feet of distance between people 
-                                     outside of one's household, and handwashing). There are additional sliders to allow you to adjust what proportion 
-                                     of all residents wear masks in public, and the nature of contact tracing implementation.
-                                     To introduce contact tracing into the model, increase the number of contacts successfully traced
-                                     and quarantined to greater than 0."), 
-                                   )
+                                   p("This app allows you to generate “what if” scenarios and generate projections of 
+                                   the course of COVID-19 in the coming months based on the particular scenario 
+                                   selected. The different sliders include: "),
+                                   p(HTML(paste0("<b>", "Social Distancing.", "</b>",
+                                                 " Social distancing refers to the steps taken to reduce infectious 
+                                                 contacts between people. We know the virus spreads from person to 
+                                                 person when people are physically close to each other. Social 
+                                                 distancing can include both policy measures to prevent contact and 
+                                                 personal behaviors such as maintaining physical distance from people 
+                                                 outside of one’s household and handwashing. In this model social 
+                                                 distancing is modeled as a percent reduction in contacts. There are 
+                                                 three sliders that address social distancing – you can adjust social 
+                                                 distancing levels for the summer and fall (starting August 15) 
+                                                 separately. Based on CDC recommendations that older adults take extra 
+                                                 precautions, you can adjust the proportion of adults age 65+ that 
+                                                 maintain high levels of social distancing (High social distancing is 
+                                                 equivalent to an 80% reduction in contacts in our model)."))),
+                                   p(HTML(paste0("<b>", "Masks.", "</b>",
+                                                 " A mask can prevent the spread of infections by containing droplets 
+                                                 from an individual’s mouth or nose when they cough, sneeze, or talk. 
+                                                 The proportion of the population wearing masks can be adjusted in the 
+                                                 model."))),
+                                   p(HTML(paste0("<b>", "Case detection and isolation.", "</b>",
+                                                 " A key strategy for controlling an epidemic is identifying those who 
+                                                 are infected and isolating them, usually at home, so that they do not 
+                                                 infect others. You can turn on or off a scenario that involves 
+                                                 increasing testing capacity and outreach to cases so that the percent 
+                                                 of symptomatic cases successfully isolated increases by 5% per week up 
+                                                 to a maximum of 80% isolated."))),
+                                   p(HTML(paste0("<b>", "Contact tracing.", "</b>",
+                                                 " Contact tracing involves identifying those people who have been close
+                                                 enough to a contagious person to have possibly become infected. Such 
+                                                 individuals are identified, contacted, and encouraged to isolate to 
+                                                 prevent further spread. The success of contact tracing depends on its 
+                                                 timing—how quickly contacts can be reached—and on its effectiveness—how
+                                                 many contacts can be traced and agree to isolate. To introduce contact 
+                                                 tracing into the model, increase the number of contacts successfully 
+                                                 traced to greater than 0. You can vary the number of contacts 
+                                                 successfully traced per case, and the time between case report and 
+                                                 successful contact tracing.")))
                                    ),
-                                   ),
+                            column(1)
+                                ),
+                            ),
                  
                  tabPanel("Documentation",
-                          h4("Introduction"),
-                          p("This app provides a tool to model the COVID-19 pandemic as it 
-                            affects the population of the State of Colorado.  It is based on a 
-                            mathematical representation of the pandemic in Colorado and it is 
-                            intended to provide an understanding of the potential impact of the
-                            four key control measures: social distancing, mask wearing, 
-                            identification and isolation of cases, and contact tracing—the key 
-                            tools used to limit the spread of the SARS-CoV-2 virus, which 
-                            causes the illness COVID-19.  It allows users to look into the 
-                            future of the pandemic in Colorado as it will be affected by how 
-                            these tools are used. "),
-                          p(HTML(paste0('The underlying model is termed an SEIR model where S refers to 
-                                        susceptible, E to exposure, I to infected, and R to recovered. The 
-                                        model that underlies the app has been developed by the Colorado 
-                                        COVID-19 Modeling Group, which includes public health scientists 
-                                        from the University of Colorado and Colorado State University.  The
-                                        technical details of the model are provided at this ', 
-                                        a(href = 'http://www.ucdenver.edu/academics/colleges/PublicHealth/coronavirus/Pages/Modeling-Results.aspx', 'link.'), 
-                                        ' The model is periodically updated to continue to reflect the 
-                                        situation in the state. '))),
-                          p("This app allows you to generate “what if” scenarios and generate 
-                            projections of the course of COVID-19 in the coming months based on
-                            the particular scenario selected. We caution that this model, like 
-                            all models, incorporates assumptions and its outputs are subject to
-                            uncertainty.  We recommend that in interpreting the numbers it 
-                            produces consideration needs to be given to various sources of 
-                            uncertainty that are described in the documentation. Nonetheless, 
-                            the general patterns described in the app’s outputs should be 
-                            useful for planning. "),
-                          h4("What is modeled"),
-                          p("The output of the model is the epidemic curve, which describes the
-                            course of the pandemic over time.  The app allows you to see the 
-                            epidemic curve with four different measures of COVID-19: 1) 
-                            symptomatic infections; 2) hospitalizations that don’t require a 
-                            stay in an intensive care unit (ICU); 3) hospitalizations that do 
-                            require ICU care; and 4) deaths.  Each of these measures is 
-                            important for tracking the pandemic.  Of course, we want to avoid 
-                            deaths and to do so we need enough regular hospital beds and also 
-                            critical care capacity.  For hospital planning, it is important to 
-                            know how much bed capacity may be needed.  For public health, we 
-                            need to know the number of people with symptomatic infections that 
-                            will need to be identified and isolated, and their contacts need to
-                            be traced.  "),
-                          p("To control the epidemic, a set of approaches has been used since 
-                            March 2020 and will continue to be used. Each of these can be 
-                            changed in the app to explore the effects of different approaches 
-                            on the epidemic curve. These measures include:"),
+                          fluidRow(column(1),
+                                   column(10,
+                                          h4("Introduction"),
+                                          p("This app provides a tool to model the COVID-19 pandemic as it affects the 
+                                          population of the State of Colorado.  It is based on a mathematical 
+                                          representation of the pandemic in Colorado and it is intended to provide an 
+                                          understanding of the potential impact of the four key control measures: social
+                                          distancing, mask wearing, identification and isolation of cases, and contact 
+                                          tracing—the key tools used to limit the spread of the SARS-CoV-2 virus, which 
+                                          causes the illness COVID-19.  It allows users to look into the future of the 
+                                          pandemic in Colorado as it will be affected by how these tools are used. "),
+                                          p(HTML(paste0("The underlying model is termed an SEIR model where S refers to
+                                                        susceptible, E to exposure, I to infected, and R to recovered. 
+                                                        The model that underlies the app has been developed by the 
+                                                        Colorado COVID-19 Modeling Group, which includes public health 
+                                                        scientists from the University of Colorado and Colorado State 
+                                                        University. The technical details of the model are provided here (",
+                                                        a(href = "http://www.ucdenver.edu/academics/colleges/PublicHealth/coronavirus/Pages/Modeling-Results.aspx",
+                                                          "LINK",
+                                                          target = "blank_"),
+                                                          ").  The model is periodically updated to continue to reflect the
+                                                          situation in the state.  "))),
+                                          p("This app allows you to generate “what if” scenarios and generate 
+                                          projections of the course of COVID-19 in the coming months based on the 
+                                          particular scenario selected.  We caution that this model, like all models, 
+                                          incorporates assumptions and its outputs are subject to uncertainty.  We 
+                                          recommend that in interpreting the numbers it produces consideration needs to 
+                                          be given to various sources of uncertainty that are described in the 
+                                          documentation.  Nonetheless, the general patterns described in the app’s 
+                                          outputs should be useful for planning. "),
+                                          h4("What is modeled"),
+                                          p("The output of the model is the epidemic curve, which describes the course 
+                                          of the pandemic over time.  The app allows you to see the epidemic curve with 
+                                          four different measures of COVID-19: 1) symptomatic infections; 2) 
+                                          hospitalizations that don’t require a stay in an intensive care unit (ICU); 3)
+                                          hospitalizations that do require ICU care; and 4) deaths.  Each of these 
+                                          measures is important for tracking the pandemic.  Of course, we want to avoid
+                                          deaths and to do so we need enough regular hospital beds and also critical 
+                                          care capacity.  For hospital planning, it is important to know how much bed 
+                                          capacity may be needed.  For public health, we need to know the number of 
+                                          people with symptomatic infections that will need to be identified and 
+                                          isolated, and their contacts need to be traced.  "),
+                                          p("To control the epidemic, a set of approaches has been used since March 2020
+                                          and will continue to be used. Each of these can be changed in the app to 
+                                          explore the effects of different approaches on the epidemic curve. These 
+                                            measures include:"),
+                                          tags$ul(
+                                            tags$li("Social distancing: This term refers to the steps taken to
+                                                    reduce infectious contacts between people. We know the virus spreads
+                                                    from person to person when people are physically close to each 
+                                                    other. Social distancing can include both policy measures to prevent
+                                                    contact (e.g., closing workplaces and schools) and personal 
+                                                    behaviors such as maintaining physical distance from people outside 
+                                                    of one’s household and handwashing. In this model social distancing 
+                                                    is modeled as a percent reduction in contacts."),
+                                            tags$li("Identification and isolation of infected individuals: A key 
+                                                    strategy for controlling an epidemic is identifying those who are 
+                                                    infected and isolating them, usually at home, so that they do not 
+                                                    infect others."),
+                                            tags$li("Contact tracing:  This has long been a public health 
+                                                    strategy for controlling outbreaks of infection and epidemics.  
+                                                    Contact tracing involves identifying those people who have been 
+                                                    close enough to a contagious person to have possibly become 
+                                                    infected.  Such individuals are identified, contacted, isolated, 
+                                                    and tested for infection. The success of contact tracing depends 
+                                                    on its timing—how quickly contacts can be reached—and on its 
+                                                    effectiveness—how many contacts can be traced and agree to 
+                                                    isolate."),
+                                            tags$li("Masks: A mask can prevent the spread of infections by containing 
+                                                    droplets from an individual’s mouth or nose when they cough, sneeze,
+                                                    or talk. The proportion of the population wearing masks can be 
+                                                    adjusted in the model.")
+                            ),
+                          h4("Further documentation"),
+                          p(HTML(paste0("Documentation of the modeling approaches are available here (", 
+                                        a(href = "SEIR Documentation_29290701.pdf", "LINK", target = "_blank"), 
+                                        ") and our model equations are available here (", 
+                                        a(href = "covid19model.pdf", 
+                                          "LINK", target = "_blank"),
+                                        ")."))
+                            ),
+                          p("Our model is re-fit and time-varying model parameters re-estimated weekly."),
                           tags$ul(
-                            tags$li("Social distancing: This term refers to the steps taken to 
-                                    reduce infectious contacts between people. We know the 
-                                    virus spreads from person to person when people are 
-                                    physically close to each other, Social distancing can 
-                                    include both policy measures to prevent contact (e.g., 
-                                    closing workplaces and schools) and personal behaviors such
-                                    as maintaining physical distance from people outside of 
-                                    one’s household and handwashing. In this model social 
-                                    distancing is modeled as a percent reduction in contacts."),
-                            tags$li("Identification and isolation of infected individuals:  
-                                    A key strategy for controlling an epidemic is identifying 
-                                    those who are infected and isolating them, usually at home,
-                                    so that they do not infect others.  "),
-                            tags$li("Contact tracing:  This has long been a public health 
-                                    strategy for controlling outbreaks of infection and 
-                                    epidemics.  Contact tracing involves identifying those 
-                                    people who have been close enough to a contagious person 
-                                    to have possibly become infected.  Such individuals are 
-                                    identified, contacted, isolated, and tested for infection.  
-                                    The success of contact tracing depends on its timing—how 
-                                    quickly contacts can be reached—and on its effectiveness—how 
-                                    many contacts can be traced and agree to isolate."),
-                            tags$li("Masks: A mask can prevent the spread of infections by 
-                                    containing droplets from an individual’s mouth or nose when
-                                    they cough, sneeze, or talk. The proportion of the 
-                                    population wearing masks can be adjusted in the model.")
-                            )
-                            )
-                            )
+                            tags$li(HTML(paste0("Model fit and parameter estimates June 30, 2020 (", 
+                                                 a(href = "ParameterEstimatesAndModelFit_20200630.pdf", 
+                                                   "LINK", target = "_blank"),
+                                                 ")")))
+                            ),
+                          p(HTML(paste0("Code for our models is posted on Github (", 
+                                        a(href = "https://github.com/agb85/covid-19", 
+                                          "LINK", target = "_blank"),
+                                        ")")))
+                          ),
+                          column(1)
+                          )
+                 )
+                 )
+
 
 server <- function(input, output) {
   
@@ -322,7 +361,7 @@ server <- function(input, output) {
                t5a = 115,
                t5b = 122,
                t6 = 129,
-               t7 = difftime(as.Date("2020-06-12"), as.Date("2020-01-23")),
+               t7 = difftime(as.Date("2020-06-19"), as.Date("2020-01-23")),
                t8 = 205,
                #ramp = ifelse(input$ramp == "Yes", .00407, 0),
                ramp = ifelse(input$ramp, .00407, 0),
