@@ -34,14 +34,9 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                      distancing, mask wearing, identification and isolation of cases, and contact 
                                      tracing—the key tools used to limit the spread of the SARS-CoV-2 virus, which 
                                      causes the illness COVID-19."),
-                                   p("For details regarding the model and underlying assumptions, see the documentation 
-                                     tab.")
-                                   # p(HTML(paste0('For full details of the implementation of the other 
-                                   #               aspects of the model see the documentation tab or the Colorado COVID-19 
-                                   #               Modeling Report ',
-                                   #               a(href = 'SEIR_Documentation_29290628.pdf', 
-                                   #                 'available here'),'.')))
-                                   ),
+                                   p(HTML(paste0("For details regarding the model and underlying assumptions, see the 
+                                                  documentation tab. For a brief video tutorial on how to use this app, ", 
+                                                 a(href="zoom_3.mp4", "click here.", target = "_blank"))))),
                             column(1)
                             ),
                           
@@ -93,11 +88,11 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                             column(1),
                             column(3, chooseSliderSkin("Nice"),
                                    sliderInput(inputId="ef1_2",
-                                               label="Social distancing by people under age 65 (present to 8/14)",
+                                               label="What is the level of social distancing among those age 65 and under? (present to 8/14)",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
                             column(3,
                                    sliderInput(inputId="ef1_3",
-                                               label="Social distancing by people under age 65 (starting 8/15)",
+                                               label="What is the level of social distancing among those age 65 and under? (starting 8/15)",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
                             column(3, 
                                    sliderInput(inputId="ef4p", 
@@ -208,11 +203,13 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                         The model that underlies the app has been developed by the 
                                                         Colorado COVID-19 Modeling Group, which includes public health 
                                                         scientists from the University of Colorado and Colorado State 
-                                                        University. The technical details of the model are provided here (",
+                                                        University. The technical details of the model are provided in 
+                                                        Further Documentation, below, and recent reports by the Colorado
+                                                        COVID-19 Modeling Group are available ",
                                                         a(href = "http://www.ucdenver.edu/academics/colleges/PublicHealth/coronavirus/Pages/Modeling-Results.aspx",
-                                                          "LINK",
+                                                          "here.",
                                                           target = "blank_"),
-                                                          ").  The model is periodically updated to continue to reflect the
+                                                          "  The model is periodically updated to continue to reflect the
                                                           situation in the state.  "))),
                                           p("This app allows you to generate “what if” scenarios and generate 
                                           projections of the course of COVID-19 in the coming months based on the 
