@@ -275,7 +275,11 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                             tags$li(HTML(paste0("Model fit and parameter estimates June 30, 2020 (", 
                                                  a(href = "ParameterEstimatesAndModelFit_20200630.pdf", 
                                                    "LINK", target = "_blank"),
-                                                 ")")))
+                                                 ")"))),
+                            tags$li(HTML(paste0("Model fit and parameter estimates July 10, 2020 (", 
+                                                a(href = "ParameterEstimatesAndModelFit_20200710.pdf", 
+                                                  "LINK", target = "_blank"),
+                                                ")")))
                             ),
                           p(HTML(paste0("Code for our models is posted on Github (", 
                                         a(href = "https://github.com/agb85/covid-19", 
