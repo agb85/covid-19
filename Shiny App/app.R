@@ -38,7 +38,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                   documentation tab. For a brief video tutorial on how to use this app, ", 
                                                  a(href="zoom_3.mp4", "click here.", target = "_blank"))))),
                             column(1)
-                            ),
+                          ),
                           
                           br(),
                           
@@ -46,39 +46,39 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           fluidRow(
                             column(1),
                             column(10, 
-                                  sidebarLayout(
-                                      # Checkboxes
-                                      sidebarPanel(
-                                        prettyCheckbox(inputId = "Infections", label = "Symptomatic Infections",
-                                                       outline = TRUE, status = "success", value = FALSE),
-                                        prettyCheckbox(inputId = "Hospitalizations", label = "Non-ICU Hospitalizations",
-                                                       outline = TRUE, status = "info", value = TRUE),
-                                        prettyCheckbox(inputId = "CriticalCare", label = "Critical Care",
-                                                       outline = TRUE, status = "warning", value = TRUE),
-                                        prettyCheckbox(inputId = "Deaths", label = "Deaths",
-                                                       outline = TRUE, status = "danger", value = TRUE),
-                                        prettyCheckbox(inputId = "ICUCapLine", label = "ICU Capacity",
-                                                       outline = TRUE, status = "default", value = TRUE),
-                                        prettyCheckbox(inputId = "CTCapLine", label = "Contact Tracing Capacity",
-                                                       outline = TRUE, value = FALSE),
-                                        prettyRadioButtons(inputId = "Daily", label = " ",
-                                                           choices = list("Daily" = TRUE, "Cumulative" = FALSE),
-                                                           shape = "square", status = "default"),
-                                        br(),
-                                        p("Contact:"),
-                                        p(HTML(paste0(a(href = 'mailto:co.sph.covid@ucdenver.edu',
-                                                        'CU COVID-19 Modeling Team')))),
-                                        p(HTML(paste0(a(href = 'https://github.com/agb85/covid-19',
-                                                        'Github Link')))),
-                                        p("Updated 7/3/20"),
-                                        width = 3
-                                      ),
-                                    
-                                      
-                                      # Plot(s)
-                                      mainPanel(plotlyOutput("p5", height = "500px"), width = 9)
-                                    ),
-                                    ),
+                                   sidebarLayout(
+                                     # Checkboxes
+                                     sidebarPanel(
+                                       prettyCheckbox(inputId = "Infections", label = "Symptomatic Infections",
+                                                      outline = TRUE, status = "success", value = FALSE),
+                                       prettyCheckbox(inputId = "Hospitalizations", label = "Non-ICU Hospitalizations",
+                                                      outline = TRUE, status = "info", value = TRUE),
+                                       prettyCheckbox(inputId = "CriticalCare", label = "Critical Care",
+                                                      outline = TRUE, status = "warning", value = TRUE),
+                                       prettyCheckbox(inputId = "Deaths", label = "Deaths",
+                                                      outline = TRUE, status = "danger", value = TRUE),
+                                       prettyCheckbox(inputId = "ICUCapLine", label = "ICU Capacity",
+                                                      outline = TRUE, status = "default", value = TRUE),
+                                       prettyCheckbox(inputId = "CTCapLine", label = "Contact Tracing Capacity",
+                                                      outline = TRUE, value = FALSE),
+                                       prettyRadioButtons(inputId = "Daily", label = " ",
+                                                          choices = list("Daily" = TRUE, "Cumulative" = FALSE),
+                                                          shape = "square", status = "default"),
+                                       br(),
+                                       p("Contact:"),
+                                       p(HTML(paste0(a(href = 'mailto:co.sph.covid@ucdenver.edu',
+                                                       'CU COVID-19 Modeling Team')))),
+                                       p(HTML(paste0(a(href = 'https://github.com/agb85/covid-19',
+                                                       'Github Link')))),
+                                       p("Updated 7/20/20"),
+                                       width = 3
+                                     ),
+                                     
+                                     
+                                     # Plot(s)
+                                     mainPanel(plotlyOutput("p5", height = "500px"), width = 9)
+                                   ),
+                            ),
                             column(1)
                           ),
                           
@@ -104,9 +104,9 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           
                           fluidRow(
                             column(1),
-                            column(3, sliderInput(inputId="maskb", label="What proportion of the population wears masks 
+                            column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
                                                   in public spaces? ",
-                                                  value=0.5, min=0, max=1, width='100%', step = .01)),
+                                                  value=0.7, min=0, max=1, width='100%', step = .01)),
                             column(3, 
                                    sliderTextInput(inputId="pi",
                                                    label="How quickly are contacts successfully traced after case report?",
@@ -124,7 +124,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           fluidRow(
                             column(1),
                             column(3, p(tags$b("Improve case detection and isolation "))),
-
+                            
                           ),
                           
                           fluidRow(
@@ -132,7 +132,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                             column(3,
                                    materialSwitch(inputId="ramp",
                                                   status = "success",
-                                               value=FALSE)),
+                                                  value=FALSE)),
                           ),
                           
                           br(),
@@ -181,10 +181,10 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                  traced to greater than 0. You can vary the number of contacts 
                                                  successfully traced per case, and the time between case report and 
                                                  successful contact tracing.")))
-                                   ),
-                            column(1)
-                                ),
                             ),
+                            column(1)
+                          ),
+                 ),
                  
                  tabPanel("Documentation",
                           fluidRow(column(1),
@@ -209,7 +209,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                         a(href = "http://www.ucdenver.edu/academics/colleges/PublicHealth/coronavirus/Pages/Modeling-Results.aspx",
                                                           "here.",
                                                           target = "blank_"),
-                                                          "  The model is periodically updated to continue to reflect the
+                                                        "  The model is periodically updated to continue to reflect the
                                                           situation in the state.  "))),
                                           p("This app allows you to generate “what if” scenarios and generate 
                                           projections of the course of COVID-19 in the coming months based on the 
@@ -261,81 +261,97 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                     droplets from an individual’s mouth or nose when they cough, sneeze,
                                                     or talk. The proportion of the population wearing masks can be 
                                                     adjusted in the model.")
-                            ),
-                          h4("Further documentation"),
-                          p(HTML(paste0("Documentation of the modeling approaches are available here (", 
-                                        a(href = "SEIR Documentation_29290701.pdf", "LINK", target = "_blank"), 
-                                        ") and our model equations are available here (", 
-                                        a(href = "covid19model.pdf", 
-                                          "LINK", target = "_blank"),
-                                        ")."))
-                            ),
-                          p("Our model is re-fit and time-varying model parameters re-estimated weekly."),
-                          tags$ul(
-                            tags$li(HTML(paste0("Model fit and parameter estimates June 30, 2020 (", 
-                                                 a(href = "ParameterEstimatesAndModelFit_20200630.pdf", 
-                                                   "LINK", target = "_blank"),
-                                                 ")"))),
-                            tags$li(HTML(paste0("Model fit and parameter estimates July 10, 2020 (", 
-                                                a(href = "ParameterEstimatesAndModelFit_20200710.pdf", 
-                                                  "LINK", target = "_blank"),
-                                                ")")))
-                            ),
-                          p(HTML(paste0("Code for our models is posted on Github (", 
-                                        a(href = "https://github.com/agb85/covid-19", 
-                                          "LINK", target = "_blank"),
-                                        ")")))
-                          ),
-                          column(1)
+                                          ),
+                                          h4("Further documentation"),
+                                          p(HTML(paste0("Documentation of the modeling approaches are available here (", 
+                                                        a(href = "SEIR Documentation_29290701.pdf", "LINK", target = "_blank"), 
+                                                        ") and our model equations are available here (", 
+                                                        a(href = "covid19model.pdf", 
+                                                          "LINK", target = "_blank"),
+                                                        ")."))
+                                          ),
+                                          p("Our model is re-fit and time-varying model parameters re-estimated weekly."),
+                                          tags$ul(
+                                            tags$li(HTML(paste0("Model fit and parameter estimates June 30, 2020 (", 
+                                                                a(href = "ParameterEstimatesAndModelFit_20200630.pdf", 
+                                                                  "LINK", target = "_blank"),
+                                                                ")"))),
+                                            tags$li(HTML(paste0("Model fit and parameter estimates July 10, 2020 (", 
+                                                                a(href = "ParameterEstimatesAndModelFit_20200710.pdf", 
+                                                                  "LINK", target = "_blank"),
+                                                                ")"))),
+                                            tags$li(HTML(paste0("Model fit and parameter estimates July 14, 2020 (", 
+                                                                a(href = "ParameterEstimatesAndModelFit_20200714.pdf", 
+                                                                  "LINK", target = "_blank"),
+                                                                ")"))),
+                                            tags$li(HTML(paste0("Model fit and parameter estimates July 20, 2020 (", 
+                                                                a(href = "ParameterEstimatesAndModelFit_20200720.pdf", 
+                                                                  "LINK", target = "_blank"),
+                                                                ")")))
+                                          ),
+                                          p(HTML(paste0("Code for our models is posted on Github (", 
+                                                        a(href = "https://github.com/agb85/covid-19", 
+                                                          "LINK", target = "_blank"),
+                                                        ")"))),
+                                   ),
+                                   column(1)
                           )
                  )
-                 )
+)
 
 
 server <- function(input, output) {
   
   output$p5 <- renderPlotly({
     
-    Cp = 5840795
-    n1 = 1513005
-    n2 = 1685869
-    n3 = 1902963
-    n4 = 738958
+    Cp <- 5840795
+    n1 <- 1513005
+    n2 <- 1685869
+    n3 <- 1902963
+    n4 <- 738958
     
     parms <- c(beta = 0.4793, # transmission rate
-               cap = 1800,
                gamma = 1/9,
                alpha = 4,
-               Cp = Cp,
-               n1 = n1,
-               n2 = n2,
-               n3 = n3,
-               n4 = n4,
-               ef1_1 = 0.706,
+               Cp = 5840795, # called back from population spreadsheet
+               n1 = 1513005,
+               n2 = 1685869,
+               n3 = 1902963,
+               n4 = 738958,
+               ef1_1 = 0.6199,
                ef1_2 = input$ef1_2,
                ef1_3 = input$ef1_3,
+               ef1_4 = input$ef1_3,
                ef4p =  input$ef4p, #proportion of adults over 65 social distancing at 80%
-               ef2_1 = 0.55,
-               ef2_2 = 0.55,
-               ef2_3 = 0.55,
-               ef3_1 = 0.55,
-               ef3_2 = 0.55,
-               ef3_3 = 0.55,
-               ef4_1 = 0.7544,
-               ef4_2 = 0.675,
-               ef4_3 = 0.675,
+               #ef2_1 = scen[i,c('ef2_1')],
+               ef2_2 = input$ef1_2,
+               ef2_3 = input$ef1_3,
+               ef2_4 = input$ef1_3,
+               #ef3_1 = scen[i,c('ef3_1')],
+               ef3_2 = input$ef1_2,
+               ef3_3 = input$ef1_3,
+               ef3_4 = input$ef1_3,
+               #ef4_1 = scen[i,c('ef4_1')],
+               ef4_2 = input$ef1_2,
+               ef4_3 = input$ef1_3,
+               ef4_4 = input$ef1_3,
                ef1 = 0,
                ef2 = 0,
                ef3 = 0,
                ef4 = 0,
                dh1 = 0, dh2 = 0, dh3 = 0.0045, dh4 = 0.0923,
                dc1 = 0.0417, dc2 = 0.0392, dc3 = 0.1543, dc4 = 0.3956,
-               dc = 0.0323,
+               dnh1 = 0.000072, dnh2 = 0.000129, dnh3 = 0.0011355, dnh4 = 0.030285,
+               hlos1 = 3.6,
+               hlos2 = 4.6,
+               hlos3 = 6.8,
+               hlos4 = 9.7,
+               cap = 1800,
                pS1 = 0.110023, ## proportion of infectious individuals symptomatic (0-19)
                pS2 = 0.35705, ## proportion of infectious individuals symptomatic (20-39)
                pS3 = 0.561205, ## proportion of infectious individuals symptomatic (40-64)
                pS4 = 0.774879, ## proportion of infectious individuals symptomatic (65+)
-               pID = 0.4, ## proportion of infections identified
+               pID = 0.38, ## proportion of infections identified
                siI = 0.438,## Proportion of symptomatic individuals self isolate
                lambda = 1.395, ##difference in infectiousness symptomatic/asymptomatic
                hosp1 = 0.01108, 
@@ -352,9 +368,13 @@ server <- function(input, output) {
                mag3a = 0.8,
                mag4 = 0.9,
                mag4a = 0.8462,
-               mag4b = 0.933,
-               t1 = 41,
-               t2 = 53,
+               mag4b = 0.9282,
+               mag5 = 0.6967,
+               mag5a = 0.8683,
+               mag5b = 0.3,
+               mag5c = 0.5164,
+               t1  = 41,
+               t2  = 53,
                t3 = 63,
                t4 = 94,
                t4a = 101,
@@ -362,28 +382,32 @@ server <- function(input, output) {
                t5a = 115,
                t5b = 122,
                t6 = 129,
-               t7 = difftime(as.Date("2020-06-19"), as.Date("2020-01-23")),
+               t6a = 136,
+               t6b = 143,
+               t6c = 150,
+               t6d = 157,
+               t7 = 169, ###Needs to be changed weekly starting July 14th to occur 2 weeks prior to fitting date
+               t7b = 182,
                t8 = 205,
-               #ramp = ifelse(input$ramp == "Yes", .00407, 0),
                ramp = ifelse(input$ramp, .00407, 0),
                maska = 0.5,
-               maskb = input$maskb,
+               maskb = 0.7,
+               maskc = input$maskc, #proportion wearing masks for projections
                kap = input$kap, #average number of contacts traced per detected case
                pCT = 0.4, #proportion of identified cases with contacts traced
-               pi = case_when(input$pi == "72 Hours" ~ 0.41667, #probability a contact traced infected individual is isolated before infecting other susceptibles
-                              input$pi == "48 Hours" ~ 0.4545,
-                              input$pi == "24 Hours" ~ 0.5),
-               om = 0.0609, #probability a contact traced individual is infected
+               pi = 0.4, #probability a contact traced infected individual is isolated before infecting other susceptibles 
+               om = 0.061, #probability a contact traced individual is infected
                temp_on = 0
     )
     
     ## Run model for CC, H, and I
     dt      <- seq(0, 500, 1)
+    
     inits      <- c(S1 = n1 - 1, E1 = 0, I1 = 1, II1 = 0, Ih1 = 0, Ic1 = 0, A1 = 0, R1 = 0, Rh1 = 0, Rc1 = 0, D1 = 0,
                     S2 = n2,     E2 = 0, I2 = 0, II2 = 0, Ih2 = 0, Ic2 = 0, A2 = 0, R2 = 0, Rh2 = 0, Rc2 = 0, D2 = 0,
                     S3 = n3,     E3 = 0, I3 = 0, II3 = 0, Ih3 = 0, Ic3 = 0, A3 = 0, R3 = 0, Rh3 = 0, Rc3 = 0, D3 = 0,
                     S4 = n4,     E4 = 0, I4 = 0, II4 = 0, Ih4 = 0, Ic4 = 0, A4 = 0, R4 = 0, Rh4 = 0, Rc4 = 0, D4 = 0)
-    N  <- Cp
+    
     out1 <- lsoda(inits, dt, seir1, parms = parms)
     out <- as.data.frame(out1)
     
@@ -404,11 +428,11 @@ server <- function(input, output) {
              cumulativeInfections, cumulativeHospitalizations, cumulativeCriticalCare)
     
     ## Run model for deaths
-    initsD      <- c(S1 = n1 - 1, E1 = 0, I1 = 1, II1 = 0, Ih1 = 0, A1 = 0, R1 = 0, Rh1 = 0, Ic = 0, Rc = 0, D = 0,
-                     S2 = n2,     E2 = 0, I2 = 0, II2 = 0, Ih2 = 0, A2 = 0, R2 = 0, Rh2 = 0,
-                     S3 = n3,     E3 = 0, I3 = 0, II3 = 0, Ih3 = 0, A3 = 0, R3 = 0, Rh3 = 0,
-                     S4 = n4,     E4 = 0, I4 = 0, II4 = 0, Ih4 = 0, A4 = 0, R4 = 0, Rh4 = 0)
-    N  <- Cp
+    initsD    <- c(S1 = n1 - 1, E1 = 0, I1 = 1, II1 = 0, Ih1 = 0, A1 = 0, R1 = 0, Rh1 = 0, Ic = 0, Rc = 0, D = 0,
+                   S2 = n2,     E2 = 0, I2 = 0, II2 = 0, Ih2 = 0, A2 = 0, R2 = 0, Rh2 = 0,
+                   S3 = n3,     E3 = 0, I3 = 0, II3 = 0, Ih3 = 0, A3 = 0, R3 = 0, Rh3 = 0,
+                   S4 = n4,     E4 = 0, I4 = 0, II4 = 0, Ih4 = 0, A4 = 0, R4 = 0, Rh4 = 0 )
+    
     outD <- lsoda(initsD, dt, seir1D, parms = parms) %>% as.data.frame()
     
     ## Calculate cumulative and daily deaths
@@ -435,3 +459,5 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
+
