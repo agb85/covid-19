@@ -70,7 +70,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                        'CU COVID-19 Modeling Team')))),
                                        p(HTML(paste0(a(href = 'https://github.com/agb85/covid-19',
                                                        'Github Link')))),
-                                       p("Updated 7/27/20"),
+                                       p("Updated 08/03/20"),
                                        width = 3
                                      ),
                                      
@@ -86,53 +86,51 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           
                           fluidRow(
                             column(1),
+                            # column(3, chooseSliderSkin("Nice"),
+                            #        sliderInput(inputId="ef1_2",
+                            #                    label="What is the level of social distancing among those age 65 and under? (present to 8/14)",
+                            #                    value=0.65, min=0, max=1, width='100%', step = .01)),
                             column(3, chooseSliderSkin("Nice"),
-                                   sliderInput(inputId="ef1_2",
-                                               label="What is the level of social distancing among those age 65 and under? (present to 8/14)",
-                                               value=0.65, min=0, max=1, width='100%', step = .01)),
-                            column(3,
-                                   sliderInput(inputId="ef1_3",
-                                               label="What is the level of social distancing among those age 65 and under? (starting 8/15)",
+                                   sliderInput(inputId="ef1_3",  
+                                               label="What is the level of social distancing among those age 65 and under? (from present onward)",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
                             column(3, 
                                    sliderInput(inputId="ef4p", 
                                                label="What proportion of adults age 65+ practice high social distancing?",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
+                            column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
+                                                  in public spaces? ",
+                                                  value=0.7, min=0, max=1, width='100%', step = .01)),
                             column(1)
                             
                           ),
                           
                           fluidRow(
                             column(1),
-                            column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
-                                                  in public spaces? ",
-                                                  value=0.7, min=0, max=1, width='100%', step = .01)),
+                            column(3, p(tags$b("How quickly are contacts successfully traced after case report?"))),
+                            column(3, p(tags$b("How many contacts are successfully traced per case?"))),
+                            column(3, p(tags$b("Improve case detection and isolation"))),
+                            column(1)
+                          ),
+                          
+                          fluidRow(
+                            column(1),
                             column(3, 
                                    sliderTextInput(inputId="pi",
-                                                   label="How quickly are contacts successfully traced after case report?",
+                                                   label = NULL,
                                                    grid = TRUE,
                                                    choices = c("24 Hours", "48 Hours", "72 Hours"),
                                                    width='100%')),
                             column(3, 
                                    sliderInput(inputId="kap", 
-                                               label="How many contacts are successfully traced per case?",
+                                               label = NULL,
                                                value=0, min=0, max=5, width='100%', step = 1)),
-                            column(1)
-                            
-                          ),
-                          
-                          fluidRow(
-                            column(1),
-                            column(3, p(tags$b("Improve case detection and isolation "))),
-                            
-                          ),
-                          
-                          fluidRow(
-                            column(1),
                             column(3,
                                    materialSwitch(inputId="ramp",
                                                   status = "success",
-                                                  value=FALSE)),
+                                                  value = FALSE)),
+                            column(1)
+                            
                           ),
                           
                           br(),
@@ -287,6 +285,14 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                             tags$li(HTML(paste0("Model fit and parameter estimates July 20, 2020 (", 
                                                                 a(href = "ParameterEstimatesAndModelFit_20200720.pdf", 
                                                                   "LINK", target = "_blank"),
+                                                                ")"))),
+                                            tags$li(HTML(paste0("Model fit and parameter estimates July 27, 2020 (", 
+                                                                a(href = "ParameterEstimatesAndModelFit_20200727.pdf", 
+                                                                  "LINK", target = "_blank"),
+                                                                ")"))),
+                                            tags$li(HTML(paste0("Model fit and parameter estimates August 03, 2020 (", 
+                                                                a(href = "ParameterEstimatesAndModelFit_20200803.pdf", 
+                                                                  "LINK", target = "_blank"),
                                                                 ")")))
                                           ),
                                           p(HTML(paste0("Code for our models is posted on Github (", 
@@ -298,7 +304,6 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           )
                  )
 )
-
 
 server <- function(input, output) {
   
@@ -319,20 +324,20 @@ server <- function(input, output) {
                n3 = 1902963,
                n4 = 738958,
                ef1_1 = 0.6199,
-               ef1_2 = input$ef1_2,
+               ef1_2 = input$ef1_3,
                ef1_3 = input$ef1_3,
                ef1_4 = input$ef1_3,
                ef4p =  input$ef4p, #proportion of adults over 65 social distancing at 80%
                #ef2_1 = scen[i,c('ef2_1')],
-               ef2_2 = input$ef1_2,
+               ef2_2 = input$ef1_3,
                ef2_3 = input$ef1_3,
                ef2_4 = input$ef1_3,
                #ef3_1 = scen[i,c('ef3_1')],
-               ef3_2 = input$ef1_2,
+               ef3_2 = input$ef1_3,
                ef3_3 = input$ef1_3,
                ef3_4 = input$ef1_3,
                #ef4_1 = scen[i,c('ef4_1')],
-               ef4_2 = input$ef1_2,
+               ef4_2 = input$ef1_3,
                ef4_3 = input$ef1_3,
                ef4_4 = input$ef1_3,
                ef1 = 0,
@@ -351,8 +356,9 @@ server <- function(input, output) {
                pS2 = 0.35705, ## proportion of infectious individuals symptomatic (20-39)
                pS3 = 0.561205, ## proportion of infectious individuals symptomatic (40-64)
                pS4 = 0.774879, ## proportion of infectious individuals symptomatic (65+)
-               pID = 0.38, ## proportion of infections identified
+               pID = 0, ## proportion of infections identified
                siI = 0.438,## Proportion of symptomatic individuals self isolate
+               siI1 = 0.3,
                lambda = 1.395, ##difference in infectiousness symptomatic/asymptomatic
                hosp1 = 0.01108, 
                cc1 = 0.00486,
@@ -374,8 +380,9 @@ server <- function(input, output) {
                mag6a = 0.6967,
                mag6b = 0.8683,
                mag6c = 0.361,
-               mag7 = 0.3,
-               mag7a = 0.7344,
+               mag7 = 0.3733,
+               mag7a = 0.5872,
+               mag7b = 0.8195,
                t1  = 41,
                t2  = 53,
                t3 = 63,
@@ -388,23 +395,23 @@ server <- function(input, output) {
                t6a = 136,
                t6b = 143,
                t6c = 150,
-               t6d = 157,
                t7 = 157, ###Needs to be changed weekly starting July 14th to occur 2 weeks prior to fitting date
-               t7b = 182,
                t7a = 164,
-               ttraj = 173,
+               t7b = 171,
+               ttraj = 180,
                tpa = 186,
-               tproject = 190,
+               tproject = 197,
                tschool = 205,
-               traj = 0.7344,
+               traj = 0.8195,
                ramp = ifelse(input$ramp, .00407, 0),
+               #ramp = ifelse(input$ramp == "Yes", .00407, 0),
                maska = 0.5,
                maskb = 0.7,
                maskc = input$maskc, #proportion wearing masks for projections
                kap = input$kap, #average number of contacts traced per detected case
                pCT = 0.4, #proportion of identified cases with contacts traced
-               pi = 0.4, #probability a contact traced infected individual is isolated before infecting other susceptibles 
-               om = 0.061, #probability a contact traced individual is infected
+               pi = 0, #probability a contact traced infected individual is isolated before infecting other susceptibles 
+               om = 0, #probability a contact traced individual is infected
                temp_on = 0
     )
     
