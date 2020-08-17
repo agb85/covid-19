@@ -86,10 +86,6 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           
                           fluidRow(
                             column(1),
-                            # column(3, chooseSliderSkin("Nice"),
-                            #        sliderInput(inputId="ef1_2",
-                            #                    label="What is the level of social distancing among those age 65 and under? (present to 8/14)",
-                            #                    value=0.65, min=0, max=1, width='100%', step = .01)),
                             column(3, chooseSliderSkin("Nice"),
                                    sliderInput(inputId="ef1_3",  
                                                label="What is the level of social distancing among those age 65 and under? (from present onward)",
@@ -404,14 +400,15 @@ server <- function(input, output) {
                tschool = 205,
                traj = 0.8195,
                ramp = ifelse(input$ramp, .00407, 0),
-               #ramp = ifelse(input$ramp == "Yes", .00407, 0),
                maska = 0.5,
                maskb = 0.7,
                maskc = input$maskc, #proportion wearing masks for projections
                kap = input$kap, #average number of contacts traced per detected case
                pCT = 0.4, #proportion of identified cases with contacts traced
-               pi = 0, #probability a contact traced infected individual is isolated before infecting other susceptibles 
-               om = 0, #probability a contact traced individual is infected
+               pi = case_when(input$pi == "72 Hours" ~ 0.364, #probability a contact traced infected individual is isolated before infecting other susceptibles
+                              input$pi == "48 Hours" ~ 0.4,
+                              input$pi == "24 Hours" ~ 0.455),
+               om = 0.061, #probability a contact traced individual is infected
                temp_on = 0
     )
     
