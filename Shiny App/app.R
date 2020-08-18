@@ -156,8 +156,9 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                  outside of one’s household and handwashing. In this model social 
                                                  distancing is modeled as a percent reduction in contacts. There are 
                                                  three sliders that address social distancing – you can adjust social 
-                                                 distancing levels for the summer and fall (starting August 15) 
-                                                 separately. Based on CDC recommendations that older adults take extra 
+                                                 distancing levels for the future, indefinitely, and you can adjust the social 
+                                                 distancing level around the Labor Day Holiday. 
+                                                 Based on CDC recommendations that older adults take extra 
                                                  precautions, you can adjust the proportion of adults age 65+ that 
                                                  maintain high levels of social distancing (High social distancing is 
                                                  equivalent to an 80% reduction in contacts in our model)."))),
