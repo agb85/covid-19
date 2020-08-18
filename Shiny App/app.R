@@ -87,7 +87,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                           fluidRow(
                             column(1),
                             column(3, chooseSliderSkin("Nice"),
-                                   sliderInput(inputId="ef1_3",  
+                                   sliderInput(inputId="ef1_2",  
                                                label="What is the level of social distancing among those age 65 and under? (from present onward)",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
                             column(3, 
@@ -99,6 +99,15 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                   value=0.7, min=0, max=1, width='100%', step = .01)),
                             column(1)
                             
+                          ),
+                          
+                          fluidRow(
+                            column(1),
+                            column(3, chooseSliderSkin("Nice"),
+                                   sliderInput(inputId="ef1_3",  
+                                               label="What is the level of social distancing among those age 65 and under for the time around and during the Labor Day holiday?",
+                                               value=0.4, min=0, max=1, width='100%', step = .01)),
+                            column(1)
                           ),
                           
                           fluidRow(
@@ -319,45 +328,40 @@ server <- function(input, output) {
                n2 = 1685869,
                n3 = 1902963,
                n4 = 738958,
-               ef1_1 = 0.6199,
-               ef1_2 = input$ef1_3,
+               ef1_2 = input$ef1_2,
                ef1_3 = input$ef1_3,
-               ef1_4 = input$ef1_3,
+               ef1_4 = input$ef1_2,
                ef4p =  input$ef4p, #proportion of adults over 65 social distancing at 80%
-               #ef2_1 = scen[i,c('ef2_1')],
-               ef2_2 = input$ef1_3,
+               ef2_2 = input$ef1_2,
                ef2_3 = input$ef1_3,
-               ef2_4 = input$ef1_3,
-               #ef3_1 = scen[i,c('ef3_1')],
-               ef3_2 = input$ef1_3,
+               ef2_4 = input$ef1_2,
+               ef3_2 = input$ef1_2,
                ef3_3 = input$ef1_3,
-               ef3_4 = input$ef1_3,
-               #ef4_1 = scen[i,c('ef4_1')],
-               ef4_2 = input$ef1_3,
+               ef3_4 = input$ef1_2,
+               ef4_2 = input$ef1_2,
                ef4_3 = input$ef1_3,
-               ef4_4 = input$ef1_3,
+               ef4_4 = input$ef1_2,
                ef1 = 0,
                ef2 = 0,
                ef3 = 0,
                ef4 = 0,
-               dh1 = 0, dh2 = 0, dh3 = 0.0045, dh4 = 0.0923,
-               dc1 = 0.0417, dc2 = 0.0392, dc3 = 0.1543, dc4 = 0.3956,
+               dh1 = 0, dh2 = 0, dh3 = 0.0045, dh4 = 0.0923, #Deaths among non-ICU hospitalizations, from Colorado data, by age
+               dc1 = 0.0417, dc2 = 0.0392, dc3 = 0.1543, dc4 = 0.3956, #Deaths among ICU hospitalizations, from Colorado data, by age
                dnh1 = 0.000072, dnh2 = 0.000129, dnh3 = 0.0011355, dnh4 = 0.030285,
-               hlos1 = 3.6,
+               hlos1 = 3.6, #Hospital length of stay by age
                hlos2 = 4.6,
                hlos3 = 6.8,
                hlos4 = 9.7,
-               cap = 1800,
+               cap = 1800, #Colorado ICU capacity
                pS1 = 0.110023, ## proportion of infectious individuals symptomatic (0-19)
                pS2 = 0.35705, ## proportion of infectious individuals symptomatic (20-39)
                pS3 = 0.561205, ## proportion of infectious individuals symptomatic (40-64)
                pS4 = 0.774879, ## proportion of infectious individuals symptomatic (65+)
-               pID = 0, ## proportion of infections identified
                siI = 0.438,## Proportion of symptomatic individuals self isolate
                siI1 = 0.3,
                lambda = 1.395, ##difference in infectiousness symptomatic/asymptomatic
-               hosp1 = 0.01108, 
-               cc1 = 0.00486,
+               hosp1 = 0.01108, #Rate of non-ICU hospitalizations among symptomatic cases by age
+               cc1 = 0.00486, #Rate of ICU-hospitalizations among symptomatic cases by age
                hosp2 = 0.03139, 
                cc2 = 0.0114,
                hosp3 = 0.04711, 
@@ -377,8 +381,9 @@ server <- function(input, output) {
                mag6b = 0.8683,
                mag6c = 0.361,
                mag7 = 0.3733,
-               mag7a = 0.5872,
-               mag7b = 0.8195,
+               mag7a = 0.5426,
+               mag7b = 0.9209,
+               mag7c = 0.7291,
                t1  = 41,
                t2  = 53,
                t3 = 63,
@@ -391,14 +396,14 @@ server <- function(input, output) {
                t6a = 136,
                t6b = 143,
                t6c = 150,
-               t7 = 157, ###Needs to be changed weekly starting July 14th to occur 2 weeks prior to fitting date
+               t7 = 157, 
                t7a = 164,
                t7b = 171,
-               ttraj = 180,
-               tpa = 186,
-               tproject = 197,
-               tschool = 205,
-               traj = 0.8195,
+               t7c = 178,
+               ttraj = 187,
+               tproject = 204,
+               tschool = 222,
+               tpa = 243,
                ramp = ifelse(input$ramp, .00407, 0),
                maska = 0.5,
                maskb = 0.7,
@@ -409,6 +414,7 @@ server <- function(input, output) {
                               input$pi == "48 Hours" ~ 0.4,
                               input$pi == "24 Hours" ~ 0.455),
                om = 0.061, #probability a contact traced individual is infected
+               pID = 0.38, ## proportion of infections identified
                temp_on = 0
     )
     
