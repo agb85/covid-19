@@ -96,7 +96,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
                             column(3,
                                    sliderInput(inputId="ef1_3",  
-                                               label="What is the level of social distancing among those age 65 and under for the time around and during the Labor Day holiday?",
+                                               label="What is the level of social distancing for the time around and during the Labor Day holiday?",
                                                value=0.4, min=0, max=1, width='100%', step = .01)),
                             column(1)
                             
@@ -153,12 +153,19 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                  outside of one’s household and handwashing. In this model social 
                                                  distancing is modeled as a percent reduction in contacts. There are 
                                                  three sliders that address social distancing – you can adjust social 
-                                                 distancing levels for the future, indefinitely, and you can adjust the social 
-                                                 distancing level around the Labor Day Holiday. 
+                                                 distancing levels for the future, before and after the Labor Day holiday, 
+                                                 and you can adjust the social distancing level around the Labor Day holiday. 
                                                  Based on CDC recommendations that older adults take extra 
                                                  precautions, you can adjust the proportion of adults age 65+ that 
                                                  maintain high levels of social distancing (High social distancing is 
                                                  equivalent to an 80% reduction in contacts in our model)."))),
+                                   p(HTML(paste0("<b>", "Labor Day.", "</b>",
+                                                 "The Labor Day holiday may result in a change in social distancing. 
+                                                 Changing the slider for social distancing around Labor Day
+                                                 allows you to see the effect of temporary changes in social distancing. Adults 65
+                                                 and older are still assumed to have reduced contact at the level set by the slider, 
+                                                 for the proportion of adults age 65+ that maintain high levels of social distancing
+                                                 "))),
                                    p(HTML(paste0("<b>", "Masks.", "</b>",
                                                  " A mask can prevent the spread of infections by containing droplets 
                                                  from an individual’s mouth or nose when they cough, sneeze, or talk. 
