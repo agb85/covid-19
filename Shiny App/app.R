@@ -94,48 +94,45 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                    sliderInput(inputId="ef4p", 
                                                label="What proportion of adults age 65+ practice high social distancing?",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
-                            column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
-                                                  in public spaces? ",
-                                                  value=0.7, min=0, max=1, width='100%', step = .01)),
+                            column(3,
+                                   sliderInput(inputId="ef1_3",  
+                                               label="What is the level of social distancing among those age 65 and under for the time around and during the Labor Day holiday?",
+                                               value=0.4, min=0, max=1, width='100%', step = .01)),
                             column(1)
                             
                           ),
                           
                           fluidRow(
                             column(1),
-                            column(3, chooseSliderSkin("Nice"),
-                                   sliderInput(inputId="ef1_3",  
-                                               label="What is the level of social distancing among those age 65 and under for the time around and during the Labor Day holiday?",
-                                               value=0.4, min=0, max=1, width='100%', step = .01)),
-                            column(1)
-                          ),
-                          
-                          fluidRow(
-                            column(1),
-                            column(3, p(tags$b("How quickly are contacts successfully traced after case report?"))),
-                            column(3, p(tags$b("How many contacts are successfully traced per case?"))),
-                            column(3, p(tags$b("Improve case detection and isolation"))),
-                            column(1)
-                          ),
-                          
-                          fluidRow(
-                            column(1),
+                            column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
+                                                  in public spaces? ",
+                                                  value=0.7, min=0, max=1, width='100%', step = .01)),
                             column(3, 
                                    sliderTextInput(inputId="pi",
-                                                   label = NULL,
+                                                   label = "How quickly are contacts successfully traced after case report?",
                                                    grid = TRUE,
                                                    choices = c("24 Hours", "48 Hours", "72 Hours"),
                                                    width='100%')),
                             column(3, 
                                    sliderInput(inputId="kap", 
-                                               label = NULL,
+                                               label = "How many contacts are successfully traced per case?",
                                                value=0, min=0, max=5, width='100%', step = 1)),
+                            column(1)
+                            
+                          ),
+                          
+                          fluidRow(
+                            column(1),
+                            column(2, p(tags$b("Improve case detection and isolation"))),
+                          ),
+                          
+                          fluidRow(
+                            column(1),
+                            
                             column(3,
                                    materialSwitch(inputId="ramp",
                                                   status = "success",
                                                   value = FALSE)),
-                            column(1)
-                            
                           ),
                           
                           br(),
