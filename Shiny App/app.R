@@ -163,7 +163,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                  "The Labor Day holiday may result in a change in social distancing. 
                                                  Changing the slider for social distancing around Labor Day
                                                  allows you to see the effect of temporary changes in social distancing. Adults 65
-                                                 and older are still assumed to have reduced contact at the level set by the slider, 
+                                                 and older are still assumed to have reduced contact at the level set by the slider 
                                                  for the proportion of adults age 65+ that maintain high levels of social distancing
                                                  "))),
                                    p(HTML(paste0("<b>", "Masks.", "</b>",
