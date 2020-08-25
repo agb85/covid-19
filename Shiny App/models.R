@@ -13,8 +13,8 @@ seir1 <- function(t, x, parms) {
     
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t3, mag2, ifelse(t<t4, mag3, ifelse(t<t4a, mag4, ifelse(t<t5, mag4a, ifelse(t<t5a, mag5, 
            ifelse(t<t5b, mag5a, ifelse(t<t6, mag5b, ifelse(t<t6a, mag6, ifelse (t<t6b, mag6a, ifelse(t<t6c, mag6b, ifelse(t<t7, mag6c, 
-           ifelse(t<t7a, mag7, ifelse (t<t7b, mag7a, ifelse(t<t7c, mag7b, 
-           ifelse(t<tproject, mag7c, ifelse(t<tschool, ef1_2, ifelse (t<tpa, ef1_3, ef1_2))))))))))))))))))
+           ifelse(t<t7a, mag7, ifelse (t<t7b, mag7a, ifelse(t<t7c, mag7b, ifelse(t<t7d, mag7c,
+           ifelse(t<tproject, mag7d, ifelse(t<tschool, ef1_2, ifelse (t<tpa, ef1_3, ef1_2)))))))))))))))))))
     ef2 <- ef1
     ef3 <- ef1
     #ef4 <- ifelse(t<tproject, ef1, ifelse (t<tschool, ef4_2, ef4_3))
@@ -106,8 +106,8 @@ seir1D <- function(t, x, parms) {
     # change over time in efficacy of % mag SD among specific age groups
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t3, mag2, ifelse(t<t4, mag3, ifelse(t<t4a, mag4, ifelse(t<t5, mag4a, ifelse(t<t5a, mag5, 
     ifelse(t<t5b, mag5a, ifelse(t<t6, mag5b, ifelse(t<t6a, mag6, ifelse (t<t6b, mag6a, ifelse(t<t6c, mag6b, ifelse(t<t7, mag6c, 
-    ifelse(t<t7a, mag7, ifelse (t<t7b, mag7a, ifelse(t<t7c, mag7b, 
-    ifelse(t<tproject, mag7c, ifelse(t<tschool, ef1_2, ifelse (t<tpa, ef1_3, ef1_2))))))))))))))))))    
+    ifelse(t<t7a, mag7, ifelse (t<t7b, mag7a, ifelse(t<t7c, mag7b, ifelse(t<t7d, mag7c,
+    ifelse(t<tproject, mag7d, ifelse(t<tschool, ef1_2, ifelse (t<tpa, ef1_3, ef1_2)))))))))))))))))))    
     ef2 <- ef1
     ef3 <- ef1
     #ef4 <- ifelse(t<tproject, ef1, ifelse (t<tschool, ef4_2, ef4_3))
