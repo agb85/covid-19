@@ -11,10 +11,9 @@ seir1 <- function(t, x, parms) {
     
     # change over time in efficacy of % mag SD among specific age groups
     
-    ef1 <- ifelse(t<t2, mag1, ifelse(t<t3, mag2, ifelse(t<t4, mag3, ifelse(t<t4a, mag4, ifelse(t<t5, mag4a, ifelse(t<t5a, mag5, 
-           ifelse(t<t5b, mag5a, ifelse(t<t6, mag5b, ifelse(t<t6a, mag6, ifelse (t<t6b, mag6a, ifelse(t<t6c, mag6b, ifelse(t<t7, mag6c, 
-           ifelse(t<t7a, mag7, ifelse (t<t7b, mag7a, ifelse(t<t7c, mag7b, ifelse(t<t7d, mag7c,
-           ifelse(t<tproject, mag7d, ifelse(t<tschool, ef1_2, ifelse (t<tpa, ef1_3, ef1_2)))))))))))))))))))
+    ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, 
+           ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
+           ifelse(t<ttraj, mag9, ifelse(t <tproject, traj, ifelse(t<tschool, ef1_2, ifelse(t<tpa, ef1_3, ef1_4))))))))))))))))
     ef2 <- ef1
     ef3 <- ef1
     #ef4 <- ifelse(t<tproject, ef1, ifelse (t<tschool, ef4_2, ef4_3))
@@ -31,49 +30,49 @@ seir1 <- function(t, x, parms) {
     dE1  <-    - E1/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S1*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S1*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dI1  <- (E1*pS1)/alpha - I1*(gamma) -  I1*pID*CT*kap*pi*om
     dII1 <-                         (I1+A1)*pID*CT*kap*pi*om - II1*gamma
-    dIh1 <- I1*hosp1*gamma + II1*pS1*hosp1*gamma - Ih1*1/3.6
-    dIc1 <- I1*cc1*gamma   + II1*pS1*cc1*gamma- Ic1*(1/4.4) 
+    dIh1 <- I1*hosp1*gamma + II1*pS1*hosp1*gamma - Ih1*1/hlos1
+    dIc1 <- I1*cc1*gamma   + II1*pS1*cc1*gamma- Ic1*(1/clos1) 
     dA1  <- (E1*(1-pS1))/alpha - A1*gamma - A1*pID*CT*kap*pi*om
     dR1  <- (I1+II1*pS1)*(gamma*(1-hosp1-cc1-dnh1)) + A1*gamma 
-    dRh1 <- (1-dh1)*Ih1*1/3.6
-    dRc1 <- (1-dc1)*Ic1*1/4.4
-    dD1  <-     dc1*Ic1*(1/4.4) + dh1*Ih1*1/3.6+ dnh1*I1*gamma
+    dRh1 <- (1-dh1)*Ih1*1/hlos1
+    dRc1 <- (1-dc1)*Ic1*1/clos1
+    dD1  <-     dc1*Ic1*(1/clos1) + dh1*Ih1*1/hlos1+ dnh1*I1*gamma
     
     dS2  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE2  <-    - E2/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dI2  <- (E2*pS2)/alpha - I2*(gamma) -  I2*pID*CT*kap*pi*om
     dII2 <-                         (I2+A2)*pID*CT*kap*pi*om - II2*gamma
-    dIh2 <- I2*hosp2*gamma + II2*pS2*hosp2*gamma - Ih2*1/4.6
-    dIc2 <- I2*cc2*gamma   + II2*pS2*cc2*gamma- Ic2*(1/7.3) 
+    dIh2 <- I2*hosp2*gamma + II2*pS2*hosp2*gamma - Ih2*1/hlos2
+    dIc2 <- I2*cc2*gamma   + II2*pS2*cc2*gamma- Ic2*(1/clos2) 
     dA2  <- (E2*(1-pS2))/alpha - A2*gamma - A2*pID*CT*kap*pi*om
     dR2  <- (I2+II2*pS2)*(gamma*(1-hosp2-cc2-dnh2)) + A2*gamma 
-    dRh2 <- (1-dh2)*Ih2*1/4.6
-    dRc2 <- (1-dc2)*Ic2*1/7.3
-    dD2  <-     dc2*Ic2*(1/7.3) + dh2*Ih2*(1/4.6)+ dnh2*I2*gamma
+    dRh2 <- (1-dh2)*Ih2*1/hlos2
+    dRc2 <- (1-dc2)*Ic2*1/clos2
+    dD2  <-     dc2*Ic2*(1/clos2) + dh2*Ih2*(1/hlos2)+ dnh2*I2*gamma
     
     dS3  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S3*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S3*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE3  <-    - E3/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S3*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S3*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dI3  <- (E3*pS3)/alpha - I3*(gamma)  - I3*pID*CT*kap*pi*om
     dII3 <-                         (I3+A3)*pID*CT*kap*pi*om - II3*gamma
-    dIh3 <- I3*hosp3*gamma + II3*pS3*hosp3*gamma - Ih3*1/6.8
-    dIc3 <- I3*cc3*gamma   + II3*pS3*cc3*gamma- Ic3*(1/11.4) 
+    dIh3 <- I3*hosp3*gamma + II3*pS3*hosp3*gamma - Ih3*1/hlos3
+    dIc3 <- I3*cc3*gamma   + II3*pS3*cc3*gamma- Ic3*(1/clos3) 
     dA3  <- (E3*(1-pS3))/alpha - A3*gamma - A3*pID*CT*kap*pi*om
     dR3  <- (I3+II3*pS3)*(gamma*(1-hosp3-cc3-dnh3)) + A3*gamma 
-    dRh3 <- (1-dh3)*Ih3*1/6.8
-    dRc3 <- (1-dc3)*Ic3*(1/11.4)
-    dD3  <-    dc3 *Ic3*(1/11.4) + dh3*Ih3*(1/6.8) + dnh3*I3*gamma
+    dRh3 <- (1-dh3)*Ih3*1/hlos3
+    dRc3 <- (1-dc3)*Ic3*(1/clos3)
+    dD3  <-    dc3 *Ic3*(1/clos3) + dh3*Ih3*(1/hlos3) + dnh3*I3*gamma
     
     dS4  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S4*(1-(siI+ramp))*(1-ef4))/N - (beta*temp*S4*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef4))/N 
     dE4  <-    - E4/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S4*(1-(siI+ramp))*(1-ef4))/N + (beta*temp*S4*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef4))/N 
     dI4  <- (E4*pS4)/alpha - I4*(gamma)  - I4*pID*CT*kap*pi*om
     dII4 <-                         (I4+A4)*pID*CT*kap*pi*om - II4*gamma
-    dIh4 <- I4*hosp4*gamma + II4*pS4*hosp4*gamma - Ih4*1/9.7
-    dIc4 <- I4*cc4*gamma   + II4*pS4*cc4*gamma- Ic4*(1/9.9) 
+    dIh4 <- I4*hosp4*gamma + II4*pS4*hosp4*gamma - Ih4*1/hlos4
+    dIc4 <- I4*cc4*gamma   + II4*pS4*cc4*gamma- Ic4*(1/clos4) 
     dA4  <- (E4*(1-pS4))/alpha - A4*gamma - A4*pID*CT*kap*pi*om
     dR4  <- (I4+II4*pS4)*(gamma*(1-hosp4-cc4-dnh4)) + A4*gamma 
-    dRh4 <- (1-dh4)*Ih4*(1/9.7)
-    dRc4 <- (1-dc4)*Ic4*(1/9.9)
-    dD4  <-    dc4* Ic4*(1/9.9) + dh4*Ih4*(1/9.7) + dnh4*I4*gamma
+    dRh4 <- (1-dh4)*Ih4*(1/hlos4)
+    dRc4 <- (1-dc4)*Ic4*(1/clos4)
+    dD4  <-    dc4* Ic4*(1/clos4) + dh4*Ih4*(1/hlos4) + dnh4*I4*gamma
     
     
     der <- c(dS1, dE1, dI1, dII1, dIh1, dIc1, dA1, dR1, dRh1, dRc1, dD1,
@@ -104,10 +103,9 @@ seir1D <- function(t, x, parms) {
     N <- Cp
     
     # change over time in efficacy of % mag SD among specific age groups
-    ef1 <- ifelse(t<t2, mag1, ifelse(t<t3, mag2, ifelse(t<t4, mag3, ifelse(t<t4a, mag4, ifelse(t<t5, mag4a, ifelse(t<t5a, mag5, 
-    ifelse(t<t5b, mag5a, ifelse(t<t6, mag5b, ifelse(t<t6a, mag6, ifelse (t<t6b, mag6a, ifelse(t<t6c, mag6b, ifelse(t<t7, mag6c, 
-    ifelse(t<t7a, mag7, ifelse (t<t7b, mag7a, ifelse(t<t7c, mag7b, ifelse(t<t7d, mag7c,
-    ifelse(t<tproject, mag7d, ifelse(t<tschool, ef1_2, ifelse (t<tpa, ef1_3, ef1_2)))))))))))))))))))    
+    ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, 
+           ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
+           ifelse(t<ttraj, mag9, ifelse(t <tproject, traj, ifelse(t<tschool, ef1_2, ifelse(t<tpa, ef1_3, ef1_4))))))))))))))))
     ef2 <- ef1
     ef3 <- ef1
     #ef4 <- ifelse(t<tproject, ef1, ifelse (t<tschool, ef4_2, ef4_3))
@@ -131,9 +129,9 @@ seir1D <- function(t, x, parms) {
     
     
     
-    dIc <- ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma - min(Ic,cap)*(1/9.2) - max(((Ic + ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma)-cap),0)    
-    dRc <- (1 - 0.2439)*min(Ic,cap)*(1/9.2)
-    dD  <-      0.2439*min(Ic,cap)*(1/9.2) + max(((Ic + I1*cc1*gamma + I2*cc2*gamma + I3*cc3*gamma + I4*cc4*gamma)-cap),0) + Ih1*dh1*(1/hlos1) + Ih2*dh2*(1/hlos2) + Ih3*dh3*(1/hlos3) + Ih4*dh4*(1/hlos4) + (1/8)*(I1*dnh1 + I2*dnh2 + I3*dnh3 + I4*dnh4)
+    dIc <- ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma - min(Ic,cap)*(1/12.01) - max(((Ic + ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma)-cap),0)    
+    dRc <- (1 - 0.24338)*min(Ic,cap)*(1/12.01)
+    dD  <-      0.24338*min(Ic,cap)*(1/12.01) + max(((Ic + I1*cc1*gamma + I2*cc2*gamma + I3*cc3*gamma + I4*cc4*gamma)-cap),0) + Ih1*dh1*(1/hlos1) + Ih2*dh2*(1/hlos2) + Ih3*dh3*(1/hlos3) + Ih4*dh4*(1/hlos4) + (1/9)*(I1*dnh1 + I2*dnh2 + I3*dnh3 + I4*dnh4)  
     
     dS2  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE2  <-    - E2/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 

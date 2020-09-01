@@ -140,9 +140,17 @@ for(i in 1:n){
              ef2 = 0,
              ef3 = 0,
              ef4 = 0,
-             dh1 = 0, dh2 = 0, dh3 = 0.0045, dh4 = 0.0923,
-             dc1 = 0.0417, dc2 = 0.0392, dc3 = 0.1543, dc4 = 0.3956,
-             dnh1 = 0.000072, dnh2 = 0.000129, dnh3 = 0.001136, dnh4 = 0.030285,
+             dh1 = scen[i,c('dh1')], dh2 = scen[i,c('dh2')], dh3 = scen[i,c('dh3')],dh4 = scen[i,c('dh4')],
+             dc1 = scen[i,c('dc1')], dc2 = scen[i,c('dc2')], dc3 = scen[i,c('dc3')],dc4 = scen[i,c('dc4')],
+             dnh1 = scen[i,c('dnh1')], dnh2 = scen[i,c('dnh2')], dnh3 = scen[i,c('dnh3')],dnh4 = scen[i,c('dnh4')],
+             hlos1 = scen[i,c('hlos1')],
+             hlos2 = scen[i,c('hlos2')],
+             hlos3 = scen[i,c('hlos3')],
+             hlos4 = scen[i,c('hlos4')],
+             clos1 = scen[i,c('clos1')],
+             clos2 = scen[i,c('clos2')],
+             clos3 = scen[i,c('clos3')],
+             clos4 = scen[i,c('clos4')],
              pS1 = scen[i,c('pS1')], ## proportion of infectious individuals symptomatic (0-19)
              pS2 = scen[i,c('pS2')], ## proportion of infectious individuals symptomatic (20-39)
              pS3 = scen[i,c('pS3')], ## proportion of infectious individuals symptomatic (40-64)
@@ -184,6 +192,7 @@ for(i in 1:n){
              t2 = scen[i,c('t2')],
              t2a = scen[i,c('t2a')],
              t3 = scen[i,c('t3')],
+             t3a = scen[i,c('t3a')],
              t4 = scen[i,c('t4')],
              t4a = scen[i,c('t4a')],
              t5 = scen[i,c('t5')],

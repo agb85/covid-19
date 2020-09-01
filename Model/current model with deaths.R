@@ -41,10 +41,9 @@ seird <- function(t, x, parms) {
     dRh1 <- (1-dh1)*Ih1*1/hlos1
 
     
-    
-    dIc <- ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma - min(Ic,cap)*(1/9.2) - max(((Ic + ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma)-cap),0)    
-    dRc <- (1 - 0.2439)*min(Ic,cap)*(1/9.2)
-    dD  <-      0.2439*min(Ic,cap)*(1/9.2) + max(((Ic + I1*cc1*gamma + I2*cc2*gamma + I3*cc3*gamma + I4*cc4*gamma)-cap),0) + Ih1*dh1*(1/hlos1) + Ih2*dh2*(1/hlos2) + Ih3*dh3*(1/hlos3) + Ih4*dh4*(1/hlos4) + (1/8)*(I1*dnh1 + I2*dnh2 + I3*dnh3 + I4*dnh4)
+    dIc <- ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma - min(Ic,cap)*(1/12.01) - max(((Ic + ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma)-cap),0)    
+    dRc <- (1 - 0.24338)*min(Ic,cap)*(1/12.01)
+    dD  <-      0.24338*min(Ic,cap)*(1/12.01) + max(((Ic + I1*cc1*gamma + I2*cc2*gamma + I3*cc3*gamma + I4*cc4*gamma)-cap),0) + Ih1*dh1*(1/hlos1) + Ih2*dh2*(1/hlos2) + Ih3*dh3*(1/hlos3) + Ih4*dh4*(1/hlos4) + (1/9)*(I1*dnh1 + I2*dnh2 + I3*dnh3 + I4*dnh4)  
     
     dS2  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE2  <-    - E2/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
@@ -129,9 +128,9 @@ for(i in 1:n){
              ef2 = 0,
              ef3 = 0,
              ef4 = 0,
-             dh1 = 0, dh2 = 0, dh3 = 0.0045, dh4 = 0.0923,
-             dc1 = 0.0417, dc2 = 0.0392, dc3 = 0.1543, dc4 = 0.3956,
-             dnh1 = 0.000072, dnh2 = 0.000129, dnh3 = 0.0011355, dnh4 = 0.030285,
+             dh1 = scen[i,c('dh1')], dh2 = scen[i,c('dh2')], dh3 = scen[i,c('dh3')],dh4 = scen[i,c('dh4')],
+             dc1 = scen[i,c('dc1')], dc2 = scen[i,c('dc2')], dc3 = scen[i,c('dc3')],dc4 = scen[i,c('dc4')],
+             dnh1 = scen[i,c('dnh1')], dnh2 = scen[i,c('dnh2')], dnh3 = scen[i,c('dnh3')],dnh4 = scen[i,c('dnh4')],
              hlos1 = scen[i,c('hlos1')],
              hlos2 = scen[i,c('hlos2')],
              hlos3 = scen[i,c('hlos3')],
