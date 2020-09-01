@@ -17,13 +17,12 @@ seird <- function(t, x, parms) {
   
   with(as.list(c(parms, x)), {
     
-    ef1 <- ifelse(t<t2, mag1, ifelse(t<t3, mag2, ifelse(t<t4, mag3, ifelse(t<t4a, mag4, ifelse(t<t5, mag4a,
-           ifelse(t<t5a, mag5, ifelse(t<t5b, mag5a, ifelse(t<t6, mag5b, ifelse(t<t6a, mag6, ifelse (t<t6b, mag6a, 
-           ifelse(t<t6c, mag6b, ifelse(t<t7, mag6c, ifelse(t<t7a, mag7, ifelse (t<t7b, mag7a, ifelse (t<t7c, mag7b, ifelse(t<t7d, mag7c,
-           ifelse(t<ttraj, mag7d, ifelse(t <tproject, traj, ifelse(t<tschool, ef1_2, (ifelse(t<tpa, ef1_3, ef1_4)))))))))))))))))))))
-    ef2 <- ifelse(t<tproject, ef1, ifelse (t<tschool, ef2_2, ifelse (t<tpa, ef2_3, ef2_4)))
-    ef3 <- ifelse(t<tproject, ef1, ifelse (t<tschool, ef3_2, ifelse (t<tpa, ef3_3, ef3_4)))
-    ef4 <- ifelse(t<tproject, ef1, ifelse (t<tschool, ef4_2, ifelse (t<tpa, ef4_3, ef4_4)))
+    ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, 
+           ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
+           ifelse(t<ttraj, mag9, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ef1_3)))))))))))))))
+    ef2 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
+    ef3 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
+    ef4 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
     
     siI <- ifelse (t < t1, 0, siI) ##Turn on symptomatics that self-isolate after 03/05
     ramp <-ifelse(t < 129, 0, ifelse(t<134,(t-129)*ramp, 4.4*ramp)) #For ramp up in case isolation : increases proportion of symptomatic case isoaltion over time
@@ -155,6 +154,7 @@ for(i in 1:n){
              cc4 = scen[i,c('cc4')],
              mag1 = scen[i, c('mag1')],
              mag2 = scen[i, c('mag2')],
+             mag2a = scen[i, c('mag2a')],
              mag3 = scen[i, c('mag3')],
              mag3a = scen[i, c('mag3a')],
              mag4 = scen[i, c('mag4')],
@@ -169,14 +169,16 @@ for(i in 1:n){
              mag6b = scen[i, c('mag6b')],
              mag6c = scen[i, c('mag6c')],
              mag7 = scen[i, c('mag7')],
-             mag7a = scen[i, c('mag7a')],
-             mag7b = scen[i, c('mag7b')],
-             mag7c = scen[i, c('mag7c')],
-             mag7d = scen[i, c('mag7d')],
+             mag8 = scen[i, c('mag8')],
+             mag9 = scen[i, c('mag9')],
+             mag10 = scen[i, c('mag10')],
+             mag11 = scen[i, c('mag11')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
+             t2a = scen[i,c('t2a')],
              t3 = scen[i,c('t3')],
+             t3a = scen[i,c('t3a')],
              t4 = scen[i,c('t4')],
              t4a = scen[i,c('t4a')],
              t5 = scen[i,c('t5')],
@@ -185,13 +187,11 @@ for(i in 1:n){
              t6 = scen[i,c('t6')],
              t6a = scen[i,c('t6a')],
              t6b = scen[i,c('t6b')],
-             t6c = scen[i,c('t6c')],
-             t6d = scen[i,c('t6d')],
              t7 = scen[i,c('t7')], 
-             t7a = scen[i,c('t7a')],
-             t7b = scen[i,c('t7b')],
-             t7c = scen[i,c('t7c')],
-             t7d = scen[i,c('t7d')],
+             t8 = scen[i,c('t8')],
+             t9 = scen[i,c('t9')],
+             t10 = scen[i,c('t10')],
+             t11 = scen[i,c('t11')],
              ttraj = scen[i,c('ttraj')], ###Changes weekly to two weeks before fitting date
              tproject = scen[i,c('tproject')], ###changes weekly to Friday after fitting date
              tpa = scen[i,c('tpa')],
