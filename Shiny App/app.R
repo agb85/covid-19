@@ -385,6 +385,7 @@ server <- function(input, output) {
                mag8 = 0.83608,
                mag9 = 0.74706,
                mag10 = 0.74706,
+               traj = 0.74706,
                t1  = 41,
                t2  = 52,
                t2a = 59,
