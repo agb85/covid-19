@@ -185,8 +185,6 @@ for(i in 1:n){
              mag7 = scen[i, c('mag7')],
              mag8 = scen[i, c('mag8')],
              mag9 = scen[i, c('mag9')],
-             mag7c = scen[i, c('mag7c')],
-             mag7d = scen[i, c('mag7d')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -206,8 +204,6 @@ for(i in 1:n){
              t7 = scen[i,c('t7')], 
              t8 = scen[i,c('t8')],
              t9 = scen[i,c('t9')],
-             t7c = scen[i,c('t7c')],
-             t7d = scen[i,c('t7d')],
              ttraj = scen[i,c('ttraj')],
              tproject = scen[i,c('tproject')],
              tpa = scen[i,c('tpa')],
@@ -244,7 +240,7 @@ all$V1 <- NULL
 all.scen <- merge(scen, all, by = "scenario")
 #all.scen.temp <- merge(all.scen, temp, by = "time")
 
-write.csv(all.scen, './allscenarios_0810.csv', row.names = F)
+write.csv(all.scen, './allscenarios_0831.csv', row.names = F)
 
 # create incrementing date vector of length 500 for all scenarios
 

@@ -227,7 +227,7 @@ all$V1 <- NULL
 all.scen <- merge(scen, all, by = "scenario")
 #all.scen.temp <- merge(all.scen, temp, by = "time")
 
-write.csv(all.scen, './allscenarios_0810_deaths.csv', row.names = F)
+write.csv(all.scen, './allscenarios_0831_deaths.csv', row.names = F)
 
 # create incrementing date vector of length 500 for all scenarios
 
