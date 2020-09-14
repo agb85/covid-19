@@ -94,10 +94,6 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                    sliderInput(inputId="ef4p", 
                                                label="What proportion of adults age 65+ practice high social distancing?",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
-                            column(3,
-                                   sliderInput(inputId="ef1_3",  
-                                               label="What is the level of social distancing for the time around and during the Labor Day holiday?",
-                                               value=0.4, min=0, max=1, width='100%', step = .01)),
                             column(1)
                             
                           ),
@@ -152,20 +148,13 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                  personal behaviors such as maintaining physical distance from people 
                                                  outside of one’s household and handwashing. In this model social 
                                                  distancing is modeled as a percent reduction in contacts. There are 
-                                                 three sliders that address social distancing – you can adjust social 
-                                                 distancing levels for the future, before and after the Labor Day holiday, 
-                                                 and you can adjust the social distancing level around the Labor Day holiday. 
+                                                 two sliders that address social distancing – you can adjust social 
+                                                 distancing levels for the future starting from the time of most recent updates. 
                                                  Based on CDC recommendations that older adults take extra 
                                                  precautions, you can adjust the proportion of adults age 65+ that 
                                                  maintain high levels of social distancing (High social distancing is 
                                                  equivalent to an 80% reduction in contacts in our model)."))),
-                                   p(HTML(paste0("<b>", "Labor Day.", "</b>",
-                                                 "The Labor Day holiday may result in a change in social distancing. 
-                                                 Changing the slider for social distancing around Labor Day
-                                                 allows you to see the effect of temporary changes in social distancing. Adults 65
-                                                 and older are still assumed to have reduced contact at the level set by the slider 
-                                                 for the proportion of adults age 65+ that maintain high levels of social distancing
-                                                 "))),
+                                  
                                    p(HTML(paste0("<b>", "Masks.", "</b>",
                                                  " A mask can prevent the spread of infections by containing droplets 
                                                  from an individual’s mouth or nose when they cough, sneeze, or talk. 
@@ -394,10 +383,10 @@ server <- function(input, output) {
                mag6a = 0.5997,
                mag6b = 0.3771,
                mag7 = 0.6899,
-               mag8 = 0.8423,
-               mag9 = 0.7332,
-               mag10 = 0.7332,
-               traj = 0.7332,
+               mag8 = 0.8363,
+               mag9 = 0.75998,
+               mag10 = 0.6549,
+               traj = 0.6549,
                t1  = 41,
                t2  = 52,
                t2a = 59,
@@ -412,8 +401,8 @@ server <- function(input, output) {
                t8 = 178,
                t9 = 192,
                t10 = 206,
-               ttraj = 208,
-               tproject = 225,
+               ttraj = 235,
+               tproject = 232,
                tschool = 222,
                tpa = 243,
                ramp = ifelse(input$ramp, .00407, 0),
