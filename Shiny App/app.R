@@ -70,7 +70,7 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                        'CU COVID-19 Modeling Team')))),
                                        p(HTML(paste0(a(href = 'https://github.com/agb85/covid-19',
                                                        'Github Link')))),
-                                       p("Updated 08/28/20"),
+                                       p("Updated 09/07/20"),
                                        width = 3
                                      ),
                                      
@@ -94,36 +94,51 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                    sliderInput(inputId="ef4p", 
                                                label="What proportion of adults age 65+ practice high social distancing?",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
-                            column(1)
-                            
-                          ),
-                          
-                          fluidRow(
-                            column(1),
                             column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
                                                   in public spaces? ",
                                                   value=0.7, min=0, max=1, width='100%', step = .01)),
-                            column(3, 
-                                   sliderTextInput(inputId="pi",
-                                                   label = "How quickly are contacts successfully traced after case report?",
-                                                   grid = TRUE,
-                                                   choices = c("24 Hours", "48 Hours", "72 Hours"),
-                                                   width='100%')),
-                            column(3, 
-                                   sliderInput(inputId="kap", 
-                                               label = "How many contacts are successfully traced per case?",
-                                               value=0, min=0, max=5, width='100%', step = 1)),
                             column(1)
                             
                           ),
                           
                           fluidRow(
                             column(1),
+                            # column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
+                            #                       in public spaces? ",
+                            #                       value=0.7, min=0, max=1, width='100%', step = .01)),
+                            # column(3, 
+                            #        sliderTextInput(inputId="pi",
+                            #                        label = "How quickly are contacts successfully traced after case report?",
+                            #                        grid = TRUE,
+                            #                        choices = c("24 Hours", "48 Hours", "72 Hours"),
+                            #                        width='100%')),
+                            # column(3, 
+                            #        sliderInput(inputId="kap", 
+                            #                    label = "How many contacts are successfully traced per case?",
+                            #                    value=0, min=0, max=5, width='100%', step = 1)),
+                            column(1)
+                            
+                          ),
+                          
+                          fluidRow(
+                            column(1),
+                            column(3, p(tags$b("How quickly are contacts successfully traced after case report?"))),
+                            column(3, p(tags$b("How many contacts are successfully traced per case?"))),
                             column(2, p(tags$b("Improve case detection and isolation"))),
                           ),
                           
                           fluidRow(
                             column(1),
+                            column(3,
+                                   sliderTextInput(inputId="pi",
+                                                   label = "", # How quickly are contacts successfully traced after case report?
+                                                   grid = TRUE,
+                                                   choices = c("24 Hours", "48 Hours", "72 Hours"),
+                                                   width='100%')),
+                            column(3,
+                                   sliderInput(inputId="kap",
+                                               label = "", # How many contacts are successfully traced per case?
+                                               value=0, min=0, max=5, width='100%', step = 1)),
                             
                             column(3,
                                    materialSwitch(inputId="ramp",
@@ -307,6 +322,10 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                                 ")"))),
                                             tags$li(HTML(paste0("Model fit and parameter estimates August 31, 2020 (", 
                                                                 a(href = "ParameterEstimatesAndModelFit_20200831.pdf", 
+                                                                  "LINK", target = "_blank"),
+                                                                ")"))),
+                                            tags$li(HTML(paste0("Model fit and parameter estimates September 07, 2020 (", 
+                                                                a(href = "ParameterEstimatesAndModelFit_20200907.pdf", 
                                                                   "LINK", target = "_blank"),
                                                                 ")")))
                                           ),
