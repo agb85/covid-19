@@ -94,15 +94,26 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                    sliderInput(inputId="ef4p", 
                                                label="What proportion of adults age 65+ practice high social distancing?",
                                                value=0.65, min=0, max=1, width='100%', step = .01)),
-                            column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
-                                                  in public spaces? ",
-                                                  value=0.7, min=0, max=1, width='100%', step = .01)),
+                            
+                            column(3,
+                                   sliderInput(inputId="ef1_3",  
+                                               label="What is the level of social distancing among those age 65 and under for the time around and during the winter holidays?",
+                                               value=0.4, min=0, max=1, width='100%', step = .01)),
                             column(1)
                             
                           ),
                           
                           fluidRow(
                             column(1),
+                            
+                            column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
+                                                  in public spaces? ",
+                                                  value=0.7, min=0, max=1, width='100%', step = .01)),
+                          
+                        
+                            
+            
+                            
                             # column(3, sliderInput(inputId="maskc", label="What proportion of the population wears masks 
                             #                       in public spaces? ",
                             #                       value=0.7, min=0, max=1, width='100%', step = .01)),
@@ -163,8 +174,11 @@ ui <- navbarPage("Modeling COVID-19 in Colorado",
                                                  personal behaviors such as maintaining physical distance from people 
                                                  outside of one’s household and handwashing. In this model social 
                                                  distancing is modeled as a percent reduction in contacts. There are 
-                                                 two sliders that address social distancing – you can adjust social 
-                                                 distancing levels for the future starting from the time of most recent updates. 
+                                                 three sliders that address social distancing – you can adjust social 
+                                                 distancing levels for the future, before and after the winter holiday season, 
+                                                 and you can adjust the social distancing level around the winter holidays.
+                                                 The winter holidays are assumed to begin the week before Thanksgiving and extend
+                                                 until January 3rd. 
                                                  Based on CDC recommendations that older adults take extra 
                                                  precautions, you can adjust the proportion of adults age 65+ that 
                                                  maintain high levels of social distancing (High social distancing is 
@@ -403,9 +417,10 @@ server <- function(input, output) {
                mag6b = 0.3771,
                mag7 = 0.6899,
                mag8 = 0.8375,
-               mag9 = 0.754,
-               mag10 = 0.6675,
-               traj = 0.6675,
+               mag9 = 0.7155,
+               mag10 = 0.6977,
+               mag11 = 0.5905,
+               traj = 0.5905,
                t1  = 41,
                t2  = 52,
                t2a = 59,
@@ -420,10 +435,12 @@ server <- function(input, output) {
                t8 = 178,
                t9 = 192,
                t10 = 206,
-               ttraj = 242,
-               tproject = 246,
+               t11 = 220,
+               ttraj = 237,
+               tproject = 253,
                tschool = 222,
-               tpa = 243,
+               tpa = 302,
+               tpb = 346,
                ramp = ifelse(input$ramp, .00407, 0),
                maska = 0.5,
                maskb = 0.7,
