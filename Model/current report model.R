@@ -21,7 +21,8 @@ seir1 <- function(t, x, parms) {
     
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4,
            ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
-           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<ttraj, mag11, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4))))))))))))))))))
+           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, 
+           ifelse(t<ttraj, mag12, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4)))))))))))))))))))
     ef2 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
     ef3 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
     ef4 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
@@ -43,7 +44,7 @@ seir1 <- function(t, x, parms) {
     dR1  <- (I1+II1*pS1)*(gamma*(1-hosp1-cc1-dnh1)) + A1*gamma 
     dRh1 <- (1-dh1)*Ih1*1/hlos1
     dRc1 <- (1-dc1)*Ic1*1/clos1
-    dD1  <-     dc1*Ic1*(1/clos1) + dh1*Ih1*1/hlos1+ dnh1*I1*gamma
+    dD1  <-     dc1*Ic1*(1/clos1) + dh1*Ih1*1/hlos1+ dnh1*(I1+II1*pS1)*gamma
     
     dS2  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE2  <-    - E2/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
@@ -55,7 +56,7 @@ seir1 <- function(t, x, parms) {
     dR2  <- (I2+II2*pS2)*(gamma*(1-hosp2-cc2-dnh2)) + A2*gamma 
     dRh2 <- (1-dh2)*Ih2*1/hlos2
     dRc2 <- (1-dc2)*Ic2*1/clos2
-    dD2  <-     dc2*Ic2*(1/clos2) + dh2*Ih2*(1/hlos2)+ dnh2*I2*gamma
+    dD2  <-     dc2*Ic2*(1/clos2) + dh2*Ih2*(1/hlos2)+ dnh2*(I2+II2*pS2)*gamma
     
     dS3  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S3*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S3*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE3  <-    - E3/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S3*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S3*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
@@ -67,7 +68,7 @@ seir1 <- function(t, x, parms) {
     dR3  <- (I3+II3*pS3)*(gamma*(1-hosp3-cc3-dnh3)) + A3*gamma 
     dRh3 <- (1-dh3)*Ih3*1/hlos3
     dRc3 <- (1-dc3)*Ic3*(1/clos3)
-    dD3  <-    dc3 *Ic3*(1/clos3) + dh3*Ih3*(1/hlos3) + dnh3*I3*gamma
+    dD3  <-    dc3 *Ic3*(1/clos3) + dh3*Ih3*(1/hlos3) + dnh3*(I3+II3*pS3)*gamma
     
     dS4  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S4*(1-(siI+ramp))*(1-ef4))/N - (beta*temp*S4*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef4))/N 
     dE4  <-    - E4/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S4*(1-(siI+ramp))*(1-ef4))/N + (beta*temp*S4*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef4))/N 
@@ -79,7 +80,7 @@ seir1 <- function(t, x, parms) {
     dR4  <- (I4+II4*pS4)*(gamma*(1-hosp4-cc4-dnh4)) + A4*gamma 
     dRh4 <- (1-dh4)*Ih4*(1/hlos4)
     dRc4 <- (1-dc4)*Ic4*(1/clos4)
-    dD4  <-    dc4* Ic4*(1/clos4) + dh4*Ih4*(1/hlos4) + dnh4*I4*gamma
+    dD4  <-    dc4* Ic4*(1/clos4) + dh4*Ih4*(1/hlos4) + dnh4*(I4+II4*pS4)*gamma
     
     
     der <- c(dS1, dE1, dI1, dII1, dIh1, dIc1, dA1, dR1, dRh1, dRc1, dD1,
@@ -187,6 +188,7 @@ for(i in 1:n){
              mag9 = scen[i, c('mag9')],
              mag10 = scen[i, c('mag10')],
              mag11 = scen[i, c('mag11')],
+             mag12 = scen[i, c('mag12')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -208,6 +210,7 @@ for(i in 1:n){
              t9 = scen[i,c('t9')],
              t10 = scen[i,c('t10')],
              t11 = scen[i,c('t11')],
+             t12 = scen[i,c('t12')],
              ttraj = scen[i,c('ttraj')],
              tproject = scen[i,c('tproject')],
              tpa = scen[i,c('tpa')],
@@ -244,7 +247,7 @@ all$V1 <- NULL
 all.scen <- merge(scen, all, by = "scenario")
 #all.scen.temp <- merge(all.scen, temp, by = "time")
 
-write.csv(all.scen, './allscenarios_0928.csv', row.names = F)
+write.csv(all.scen, './allscenarios_1005.csv', row.names = F)
 
 # create incrementing date vector of length 500 for all scenarios
 

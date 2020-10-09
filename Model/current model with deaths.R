@@ -19,7 +19,8 @@ seird <- function(t, x, parms) {
     
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, 
            ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
-           ifelse(t<t10, mag9, ifelse(t<ttraj, mag10, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ef1_3))))))))))))))))
+           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, 
+           ifelse(t<ttraj, mag12, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4)))))))))))))))))))
     ef2 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
     ef3 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
     ef4 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
