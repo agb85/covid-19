@@ -21,8 +21,8 @@ seir1 <- function(t, x, parms) {
     
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4,
            ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
-           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, 
-           ifelse(t<ttraj, mag12, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4)))))))))))))))))))
+           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, ifelse(t<t13, mag12, 
+           ifelse(t<ttraj, mag13, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4))))))))))))))))))))
     ef2 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
     ef3 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
     ef4 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
@@ -34,6 +34,15 @@ seir1 <- function(t, x, parms) {
     #temp <- ifelse (t > 1, ifelse(temp_on == 1, temptheory$temp.param[[t]],1), 1)
     temp <-ifelse(temp_on == 1, 0.5*cos((t+45)*0.017)+1.5, 1)
     
+    clos4 <- ifelse(t<99, clos4, clos4a)
+    hlos4 <- ifelse(t<99, hlos4, hlos4a)
+    clos3 <- ifelse(t<99, clos3, clos3a)
+    hlos3 <- ifelse(t<99, hlos3, hlos3a)
+    clos2 <- ifelse(t<99, clos2, clos2a)
+    hlos2 <- ifelse(t<99, hlos2, hlos2a)
+    clos1 <- ifelse(t<99, clos1, clos1a)
+    hlos1 <- ifelse(t<99, hlos1, hlos1a)
+    
     dS1  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S1*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S1*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE1  <-    - E1/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S1*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S1*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dI1  <- (E1*pS1)/alpha - I1*(gamma) -  I1*pID*CT*kap*pi*om
@@ -41,7 +50,7 @@ seir1 <- function(t, x, parms) {
     dIh1 <- I1*hosp1*gamma + II1*pS1*hosp1*gamma - Ih1*1/hlos1
     dIc1 <- I1*cc1*gamma   + II1*pS1*cc1*gamma- Ic1*(1/clos1) 
     dA1  <- (E1*(1-pS1))/alpha - A1*gamma - A1*pID*CT*kap*pi*om
-    dR1  <- (I1+II1*pS1)*(gamma*(1-hosp1-cc1-dnh1)) + A1*gamma 
+    dR1  <- (I1+II1*pS1)*(gamma*(1-hosp1-cc1-dnh1)) + (A1 + II1*(1-pS1))*gamma
     dRh1 <- (1-dh1)*Ih1*1/hlos1
     dRc1 <- (1-dc1)*Ic1*1/clos1
     dD1  <-     dc1*Ic1*(1/clos1) + dh1*Ih1*1/hlos1+ dnh1*(I1+II1*pS1)*gamma
@@ -53,7 +62,7 @@ seir1 <- function(t, x, parms) {
     dIh2 <- I2*hosp2*gamma + II2*pS2*hosp2*gamma - Ih2*1/hlos2
     dIc2 <- I2*cc2*gamma   + II2*pS2*cc2*gamma- Ic2*(1/clos2) 
     dA2  <- (E2*(1-pS2))/alpha - A2*gamma - A2*pID*CT*kap*pi*om
-    dR2  <- (I2+II2*pS2)*(gamma*(1-hosp2-cc2-dnh2)) + A2*gamma 
+    dR2  <- (I2+II2*pS2)*(gamma*(1-hosp2-cc2-dnh2)) + (A2 + II2*(1-pS2))*gamma 
     dRh2 <- (1-dh2)*Ih2*1/hlos2
     dRc2 <- (1-dc2)*Ic2*1/clos2
     dD2  <-     dc2*Ic2*(1/clos2) + dh2*Ih2*(1/hlos2)+ dnh2*(I2+II2*pS2)*gamma
@@ -65,7 +74,7 @@ seir1 <- function(t, x, parms) {
     dIh3 <- I3*hosp3*gamma + II3*pS3*hosp3*gamma - Ih3*1/hlos3
     dIc3 <- I3*cc3*gamma   + II3*pS3*cc3*gamma- Ic3*(1/clos3) 
     dA3  <- (E3*(1-pS3))/alpha - A3*gamma - A3*pID*CT*kap*pi*om
-    dR3  <- (I3+II3*pS3)*(gamma*(1-hosp3-cc3-dnh3)) + A3*gamma 
+    dR3  <- (I3+II3*pS3)*(gamma*(1-hosp3-cc3-dnh3)) + (A3 + II3*(1-pS3))*gamma
     dRh3 <- (1-dh3)*Ih3*1/hlos3
     dRc3 <- (1-dc3)*Ic3*(1/clos3)
     dD3  <-    dc3 *Ic3*(1/clos3) + dh3*Ih3*(1/hlos3) + dnh3*(I3+II3*pS3)*gamma
@@ -77,7 +86,7 @@ seir1 <- function(t, x, parms) {
     dIh4 <- I4*hosp4*gamma + II4*pS4*hosp4*gamma - Ih4*1/hlos4
     dIc4 <- I4*cc4*gamma   + II4*pS4*cc4*gamma- Ic4*(1/clos4) 
     dA4  <- (E4*(1-pS4))/alpha - A4*gamma - A4*pID*CT*kap*pi*om
-    dR4  <- (I4+II4*pS4)*(gamma*(1-hosp4-cc4-dnh4)) + A4*gamma 
+    dR4  <- (I4+II4*pS4)*(gamma*(1-hosp4-cc4-dnh4)) + (A4 + II4*(1-pS4))*gamma
     dRh4 <- (1-dh4)*Ih4*(1/hlos4)
     dRc4 <- (1-dc4)*Ic4*(1/clos4)
     dD4  <-    dc4* Ic4*(1/clos4) + dh4*Ih4*(1/hlos4) + dnh4*(I4+II4*pS4)*gamma
@@ -152,6 +161,14 @@ for(i in 1:n){
              clos2 = scen[i,c('clos2')],
              clos3 = scen[i,c('clos3')],
              clos4 = scen[i,c('clos4')],
+             hlos1a = scen[i,c('hlos1a')],
+             hlos2a = scen[i,c('hlos2a')],
+             hlos3a = scen[i,c('hlos3a')],
+             hlos4a = scen[i,c('hlos4a')],
+             clos1a = scen[i,c('clos1a')],
+             clos2a = scen[i,c('clos2a')],
+             clos3a = scen[i,c('clos3a')],
+             clos4a = scen[i,c('clos4a')],
              pS1 = scen[i,c('pS1')], ## proportion of infectious individuals symptomatic (0-19)
              pS2 = scen[i,c('pS2')], ## proportion of infectious individuals symptomatic (20-39)
              pS3 = scen[i,c('pS3')], ## proportion of infectious individuals symptomatic (40-64)
@@ -189,6 +206,7 @@ for(i in 1:n){
              mag10 = scen[i, c('mag10')],
              mag11 = scen[i, c('mag11')],
              mag12 = scen[i, c('mag12')],
+             mag13 = scen[i, c('mag13')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -211,6 +229,7 @@ for(i in 1:n){
              t10 = scen[i,c('t10')],
              t11 = scen[i,c('t11')],
              t12 = scen[i,c('t12')],
+             t13 = scen[i,c('t13')],
              ttraj = scen[i,c('ttraj')],
              tproject = scen[i,c('tproject')],
              tpa = scen[i,c('tpa')],

@@ -19,11 +19,11 @@ seird <- function(t, x, parms) {
     
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, 
            ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
-           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, 
-           ifelse(t<ttraj, mag12, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4)))))))))))))))))))
-    ef2 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
-    ef3 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
-    ef4 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
+           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, ifelse(t<t13, mag12, 
+           ifelse(t<ttraj, mag13, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4))))))))))))))))))))
+    ef2 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
+    ef3 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
+    ef4 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
     
     siI <- ifelse (t < t1, 0, siI) ##Turn on symptomatics that self-isolate after 03/05
     ramp <-ifelse(t < 129, 0, ifelse(t<134,(t-129)*ramp, 4.4*ramp)) #For ramp up in case isolation : increases proportion of symptomatic case isoaltion over time
@@ -31,6 +31,14 @@ seird <- function(t, x, parms) {
     CT  <- ifelse(t < t7, 0, pCT)
     #temp <- ifelse (t > 1, ifelse(temp_on == 1, temptheory$temp.param[[t]],1), 1)
     temp <-ifelse(temp_on == 1, 0.5*cos((t+45)*0.017)+1.5, 1)
+    clos4 <- ifelse(t<99, clos4, clos4a)
+    hlos4 <- ifelse(t<99, hlos4, hlos4a)
+    clos3 <- ifelse(t<99, clos3, clos3a)
+    hlos3 <- ifelse(t<99, hlos3, hlos3a)
+    clos2 <- ifelse(t<99, clos2, clos2a)
+    hlos2 <- ifelse(t<99, hlos2, hlos2a)
+    clos1 <- ifelse(t<99, clos1, clos1a)
+    hlos1 <- ifelse(t<99, hlos1, hlos1a)
     
     dS1  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S1*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S1*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE1  <-    - E1/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S1*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S1*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
@@ -38,13 +46,13 @@ seird <- function(t, x, parms) {
     dII1 <-                         (I1+A1)*pID*CT*kap*pi*om - II1*gamma
     dIh1 <- I1*hosp1*gamma + II1*pS1*hosp1*gamma - Ih1*1/hlos1
     dA1  <- (E1*(1-pS1))/alpha - A1*gamma - A1*pID*CT*kap*pi*om
-    dR1  <- (I1+II1*pS1)*(gamma*(1-hosp1-cc1-dnh1)) + A1*gamma 
+    dR1  <- (I1+II1*pS1)*(gamma*(1-hosp1-cc1-dnh1)) + (A1 + II1*(1-pS1))*gamma
     dRh1 <- (1-dh1)*Ih1*1/hlos1
 
     
-    dIc <- ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma - min(Ic,cap)*(1/12.01) - max(((Ic + ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma)-cap),0)    
-    dRc <- (1 - 0.24338)*min(Ic,cap)*(1/12.01)
-    dD  <-      0.24338*min(Ic,cap)*(1/12.01) + max(((Ic + I1*cc1*gamma + I2*cc2*gamma + I3*cc3*gamma + I4*cc4*gamma)-cap),0) + Ih1*dh1*(1/hlos1) + Ih2*dh2*(1/hlos2) + Ih3*dh3*(1/hlos3) + Ih4*dh4*(1/hlos4) + (1/9)*(I1*dnh1 + I2*dnh2 + I3*dnh3 + I4*dnh4)  
+    dIc <- ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma - min(Ic,cap)*(1/clos) - max(((Ic + ((I1+II1*pS1)*cc1 + (I2+II2*pS2)*cc2 + (I3+II3*pS3)*cc3 + (I4+II4*pS4)*cc4)*gamma)-cap),0)    
+    dRc <- (1 - 0.24338)*min(Ic,cap)*(1/clos)
+    dD  <-      0.24338*min(Ic,cap)*(1/clos) + max(((Ic + I1*cc1*gamma + I2*cc2*gamma + I3*cc3*gamma + I4*cc4*gamma)-cap),0) + Ih1*dh1*(1/hlos1) + Ih2*dh2*(1/hlos2) + Ih3*dh3*(1/hlos3) + Ih4*dh4*(1/hlos4) + (1/9)*(I1*dnh1 + I2*dnh2 + I3*dnh3 + I4*dnh4)+ + (1/9)*(II1*dnh1 + II2*dnh2 + II3*dnh3 + II4*dnh4)
     
     dS2  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE2  <-    - E2/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S2*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S2*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
@@ -52,7 +60,7 @@ seird <- function(t, x, parms) {
     dII2 <-                         (I2+A2)*pID*CT*kap*pi*om - II2*gamma
     dIh2 <- I2*hosp2*gamma + II2*pS2*hosp2*gamma - Ih2*1/hlos2
     dA2  <- (E2*(1-pS2))/alpha - A2*gamma - A2*pID*CT*kap*pi*om
-    dR2  <- (I2+II2*pS2)*(gamma*(1-hosp2-cc2-dnh2)) + A2*gamma 
+    dR2  <- (I2+II2*pS2)*(gamma*(1-hosp2-cc2-dnh2)) + (A2 + II2*(1-pS2))*gamma  
     dRh2 <- (1-dh2)*Ih2*1/hlos2
   
     dS3  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S3*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S3*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
@@ -61,7 +69,7 @@ seird <- function(t, x, parms) {
     dII3 <-                         (I3+A3)*pID*CT*kap*pi*om - II3*gamma
     dIh3 <- I3*hosp3*gamma + II3*pS3*hosp3*gamma - Ih3*1/hlos3
     dA3  <- (E3*(1-pS3))/alpha - A3*gamma - A3*pID*CT*kap*pi*om
-    dR3  <- (I3+II3*pS3)*(gamma*(1-hosp3-cc3-dnh3)) + A3*gamma 
+    dR3  <- (I3+II3*pS3)*(gamma*(1-hosp3-cc3-dnh3)) + (A3 + II3*(1-pS3))*gamma
     dRh3 <- (1-dh3)*Ih3*1/hlos3
   
     dS4  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S4*(1-(siI+ramp))*(1-ef4))/N - (beta*temp*S4*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef4))/N 
@@ -70,7 +78,7 @@ seird <- function(t, x, parms) {
     dII4 <-                         (I4+A4)*pID*CT*kap*pi*om - II4*gamma
     dIh4 <- I4*hosp4*gamma + II4*pS4*hosp4*gamma - Ih4*1/hlos4
     dA4  <- (E4*(1-pS4))/alpha - A4*gamma - A4*pID*CT*kap*pi*om
-    dR4  <- (I4+II4*pS4)*(gamma*(1-hosp4-cc4-dnh4)) + A4*gamma 
+    dR4  <- (I4+II4*pS4)*(gamma*(1-hosp4-cc4-dnh4)) + (A4 + II4*(1-pS4))*gamma
     dRh4 <- (1-dh4)*Ih4*(1/hlos4)
   
     
@@ -132,10 +140,15 @@ for(i in 1:n){
              dh1 = scen[i,c('dh1')], dh2 = scen[i,c('dh2')], dh3 = scen[i,c('dh3')],dh4 = scen[i,c('dh4')],
              dc1 = scen[i,c('dc1')], dc2 = scen[i,c('dc2')], dc3 = scen[i,c('dc3')],dc4 = scen[i,c('dc4')],
              dnh1 = scen[i,c('dnh1')], dnh2 = scen[i,c('dnh2')], dnh3 = scen[i,c('dnh3')],dnh4 = scen[i,c('dnh4')],
+             clos1 = scen[i,c('clos')],
              hlos1 = scen[i,c('hlos1')],
              hlos2 = scen[i,c('hlos2')],
              hlos3 = scen[i,c('hlos3')],
              hlos4 = scen[i,c('hlos4')],
+             hlos1a = scen[i,c('hlos1a')],
+             hlos2a = scen[i,c('hlos2a')],
+             hlos3a = scen[i,c('hlos3a')],
+             hlos4a = scen[i,c('hlos4a')],
              cap = 1800,
              pS1 = scen[i,c('pS1')], ## proportion of infectious individuals symptomatic (0-19)
              pS2 = scen[i,c('pS2')], ## proportion of infectious individuals symptomatic (20-39)
@@ -173,6 +186,8 @@ for(i in 1:n){
              mag9 = scen[i, c('mag9')],
              mag10 = scen[i, c('mag10')],
              mag11 = scen[i, c('mag11')],
+             mag12 = scen[i, c('mag12')],
+             mag13 = scen[i, c('mag13')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -192,6 +207,8 @@ for(i in 1:n){
              t9 = scen[i,c('t9')],
              t10 = scen[i,c('t10')],
              t11 = scen[i,c('t11')],
+             t12 = scen[i,c('t12')],
+             t13 = scen[i,c('t13')],
              ttraj = scen[i,c('ttraj')], ###Changes weekly to two weeks before fitting date
              tproject = scen[i,c('tproject')], ###changes weekly to Friday after fitting date
              tpa = scen[i,c('tpa')],
