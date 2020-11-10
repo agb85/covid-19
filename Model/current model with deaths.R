@@ -19,8 +19,8 @@ seird <- function(t, x, parms) {
     
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, 
            ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
-           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, ifelse(t<t13, mag12, 
-           ifelse(t<ttraj, mag13, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4))))))))))))))))))))
+           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, ifelse(t<t13, mag12, ifelse(t<t14, mag13, 
+           ifelse(t<ttraj, mag14, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4)))))))))))))))))))))
     ef2 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
     ef3 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
     ef4 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
@@ -31,14 +31,14 @@ seird <- function(t, x, parms) {
     CT  <- ifelse(t < t7, 0, pCT)
     #temp <- ifelse (t > 1, ifelse(temp_on == 1, temptheory$temp.param[[t]],1), 1)
     temp <-ifelse(temp_on == 1, 0.5*cos((t+45)*0.017)+1.5, 1)
-    clos4 <- ifelse(t<99, clos4, clos4a)
+    clos <- ifelse(t<99, 12.01, 7.258)
     hlos4 <- ifelse(t<99, hlos4, hlos4a)
-    clos3 <- ifelse(t<99, clos3, clos3a)
     hlos3 <- ifelse(t<99, hlos3, hlos3a)
-    clos2 <- ifelse(t<99, clos2, clos2a)
     hlos2 <- ifelse(t<99, hlos2, hlos2a)
-    clos1 <- ifelse(t<99, clos1, clos1a)
     hlos1 <- ifelse(t<99, hlos1, hlos1a)
+    dh3 <- ifelse(t<160, dh3, dh3_2)
+    dh4 <- ifelse(t<160, dh4, dh4_2)
+   
     
     dS1  <-    - (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S1*(1-(siI+ramp))*(1-ef1))/N - (beta*temp*S1*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
     dE1  <-    - E1/alpha   + (I1+I2+I3+I4)*(beta*temp*(1-(maska*0.03))*lambda*S1*(1-(siI+ramp))*(1-ef1))/N + (beta*temp*S1*(1-(maska*0.2667))*(A1+A2+A3+A4)*(1-ef1))/N 
@@ -137,10 +137,11 @@ for(i in 1:n){
              ef2 = 0,
              ef3 = 0,
              ef4 = 0,
-             dh1 = scen[i,c('dh1')], dh2 = scen[i,c('dh2')], dh3 = scen[i,c('dh3')],dh4 = scen[i,c('dh4')],
+             dh1 = scen[i,c('dh1')], dh2 = scen[i,c('dh2')], 
+             dh3 = scen[i,c('dh3')],dh4 = scen[i,c('dh4')],
+             dh3_2 = scen[i,c('dh3_2')],dh4_2 = scen[i,c('dh4_2')],
              dc1 = scen[i,c('dc1')], dc2 = scen[i,c('dc2')], dc3 = scen[i,c('dc3')],dc4 = scen[i,c('dc4')],
              dnh1 = scen[i,c('dnh1')], dnh2 = scen[i,c('dnh2')], dnh3 = scen[i,c('dnh3')],dnh4 = scen[i,c('dnh4')],
-             clos1 = scen[i,c('clos')],
              hlos1 = scen[i,c('hlos1')],
              hlos2 = scen[i,c('hlos2')],
              hlos3 = scen[i,c('hlos3')],
@@ -188,6 +189,7 @@ for(i in 1:n){
              mag11 = scen[i, c('mag11')],
              mag12 = scen[i, c('mag12')],
              mag13 = scen[i, c('mag13')],
+             mag14 = scen[i, c('mag14')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -209,9 +211,11 @@ for(i in 1:n){
              t11 = scen[i,c('t11')],
              t12 = scen[i,c('t12')],
              t13 = scen[i,c('t13')],
+             t14 = scen[i,c('t14')],
              ttraj = scen[i,c('ttraj')], ###Changes weekly to two weeks before fitting date
              tproject = scen[i,c('tproject')], ###changes weekly to Friday after fitting date
              tpa = scen[i,c('tpa')],
+             tpb = scen[i,c('tpb')],
              tschool = scen[i,c('tschool')],
              ramp = scen[i,c('ramp')],
              maska = scen[i,c('maska')],
@@ -245,7 +249,7 @@ all$V1 <- NULL
 all.scen <- merge(scen, all, by = "scenario")
 #all.scen.temp <- merge(all.scen, temp, by = "time")
 
-write.csv(all.scen, './allscenarios_0831_deaths.csv', row.names = F)
+write.csv(all.scen, './allscenarios_0911_deaths.csv', row.names = F)
 
 # create incrementing date vector of length 500 for all scenarios
 
