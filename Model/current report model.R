@@ -21,8 +21,8 @@ seir1 <- function(t, x, parms) {
     
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4,
            ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
-           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, ifelse(t<t13, mag12, 
-           ifelse(t<ttraj, mag13, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4))))))))))))))))))))
+           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11, ifelse(t<t13, mag12, ifelse(t<t14, mag13,
+           ifelse(t<ttraj, mag14, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4)))))))))))))))))))))
     ef2 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
     ef3 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
     ef4 <- ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
@@ -207,6 +207,7 @@ for(i in 1:n){
              mag11 = scen[i, c('mag11')],
              mag12 = scen[i, c('mag12')],
              mag13 = scen[i, c('mag13')],
+             mag14 = scen[i, c('mag14')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -230,6 +231,7 @@ for(i in 1:n){
              t11 = scen[i,c('t11')],
              t12 = scen[i,c('t12')],
              t13 = scen[i,c('t13')],
+             t14 = scen[i,c('t14')],
              ttraj = scen[i,c('ttraj')],
              tproject = scen[i,c('tproject')],
              tpa = scen[i,c('tpa')],
@@ -266,7 +268,7 @@ all$V1 <- NULL
 all.scen <- merge(scen, all, by = "scenario")
 #all.scen.temp <- merge(all.scen, temp, by = "time")
 
-write.csv(all.scen, './allscenarios_1005.csv', row.names = F)
+write.csv(all.scen, './allscenarios_1109.csv', row.names = F)
 
 # create incrementing date vector of length 500 for all scenarios
 
