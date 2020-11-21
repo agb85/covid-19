@@ -26,7 +26,7 @@ seir1 <- function(t, x, parms) {
     ef2 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
     ef3 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
     ef4 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
-    pID <- ifelse (t < 1, 1, pIDstate$pIDstate[[t]])
+    pID <- 0.44 #ifelse (t < 1, 1, pIDstate$pIDstate[[t]])
     
     siI <- ifelse (t < t1, 0, siI) ##Turn on symptomatics that self-isolate after 03/05
     ramp <-ifelse(t < 129, 0, ifelse(t<134,(t-129)*ramp, 4.4*ramp)) #For ramp up in case isolation : increases proportion of symptomatic case isoaltion over time
