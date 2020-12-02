@@ -297,9 +297,10 @@ all$V1 <- NULL
 all.scen <- merge(scen, all, by = "scenario")
 #all.scen.temp <- merge(all.scen, temp, by = "time")
 
-write.csv(all.scen, './allscenarios_1201.csv', row.names = F)
+
 
 # create incrementing date vector of length 500 for all scenarios
 
 all.scen$date <- seq(from = as.Date("2020/1/24"), to = as.Date("2020/1/24") + 500, "days")
 
+write.csv(all.scen, './allscenarios_1201.csv', row.names = F)
