@@ -8,7 +8,7 @@ Publicly released reports are currently archived at the [Colorado School of Publ
 
 ### Regional Reports
 Current regional model documentation can be found [here](https://agb85.github.io/covid-19/Regional%20Model%20Documentation.pdf).
-And our latest regional report is [here](https://agb85.github.io/covid-19/Regional%20Report.pdf)
+And our latest regional report is [here](https://agb85.github.io/covid-19/Regional%20Report.html)
 
 ### Archives
 #### State-level Documentation
