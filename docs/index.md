@@ -18,7 +18,7 @@ And our latest complete regional report is [here](https://agb85.github.io/covid-
 [July 1st, 2020](https://agb85.github.io/covid-19/SEIR%20Documentation_20200701.pdf)
 
 #### Regional Reports
-[December 10th, 2020](https://agb85.github.io/covid-19/RegionalReport_20201210.html)
+[December 10th, 2020](https://agb85.github.io/covid-19/Regional%20Report_20201210.html)
 
 [November 12th, 2020](https://agb85.github.io/covid-19/RegionalReport_20201112.pdf)
 
