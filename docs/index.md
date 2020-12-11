@@ -17,4 +17,4 @@ And our latest regional report is [here](https://agb85.github.io/covid-19/Region
 #### Regional Reports
 [November 12th, 2020](https://agb85.github.io/covid-19/RegionalReport_20201112.pdf)
 
-[November 24th, 2020](https://agb85.github.io/covid-19/RegionalReport_20201124.pdf)
+[November 24th, 2020](https://agb85.github.io/covid-19/Regional%20Report_20201124.pdf)
