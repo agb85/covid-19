@@ -10,8 +10,27 @@ Publicly released reports are currently archived at the [Colorado School of Publ
 Current regional model documentation can be found [here](https://agb85.github.io/covid-19/Regional%20Model%20Documentation.pdf).
 And our latest complete regional report is [here](https://agb85.github.io/covid-19/Regional%20Report.html)
 
-#### [Report for Metro LPHA Region](https://agb85.github.io/covid-19/Metro%20LPHA%20Region%20Report.html)
+#### LPHA Region
+* [Central](https://agb85.github.io/covid-19/Central%20Region%20Report.html)
+* [Central Mountains](https://agb85.github.io/covid-19/Central%20Mountains%20Region%20Report.html)
+* [East Central](https://agb85.github.io/covid-19/East%20Central%20Region%20Report.html)
+* [Metro](https://agb85.github.io/covid-19/Metro%20Region%20Report.html)
+* [Northeast](https://agb85.github.io/covid-19/Northeast%20Region%20Report.html)
+* [San Luis Valley](https://agb85.github.io/covid-19/San%20Luis%20Valley%20Region%20Report.html)
+* [South Central](https://agb85.github.io/covid-19/South%20Central%20Region%20Report.html)
+* [Southeast](https://agb85.github.io/covid-19/Southeast%20Region%20Report.html)
+* [Southwest](https://agb85.github.io/covid-19/Southwest%20Region%20Report.html)
+* [West Central Partnership](https://agb85.github.io/covid-19/West%20Central%20Partnership%20Region%20Report.html)
 
+#### County
+* [Adams](https://agb85.github.io/covid-19/Adams%20County%20Report.html)
+* [Arapahoe](https://agb85.github.io/covid-19/Arapahoe%20County%20Report.html)
+* [Boulder](https://agb85.github.io/covid-19/Boulder%20County%20Report.html)
+* [Broomfield](https://agb85.github.io/covid-19/Broomfield%20County%20Report.html)
+* [Denver](https://agb85.github.io/covid-19/Denver%20County%20Report.html)
+* [Douglas](https://agb85.github.io/covid-19/Douglas%20County%20Report.html)
+* [El Paso](https://agb85.github.io/covid-19/El%20Paso%20County%20Report.html)
+* [Jefferson plus](https://agb85.github.io/covid-19/Jefferson%20plus%20Report.html)
 
 ### Archives
 #### State-level Documentation
