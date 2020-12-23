@@ -22,7 +22,8 @@ seir1 <- function(t, x, parms) {
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, 
           ifelse(t<t6, mag5, ifelse(t<t6a, mag6,ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, ifelse(t<t8, mag7, ifelse (t<t9, mag8, 
           ifelse(t<t10, mag9, ifelse(t<t11, mag10, ifelse(t<t12, mag11,ifelse(t<t13, mag12, ifelse(t<t14, mag13, ifelse(t<t15, mag14,
-          ifelse(t<t16, mag15, ifelse(t<ttraj, mag16, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, ef1_4)))))))))))))))))))))))
+          ifelse(t<t16, mag15, ifelse(t<t17, mag16, ifelse(t<ttraj, mag17, ifelse(t <tproject, traj, ifelse(t<tpa, ef1_2, ifelse(t<tpb, ef1_3, 
+          ifelse(t<tpc, ef1_4, ef1_5)))))))))))))))))))))))))
     ef2 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef2_2, ef2_3))
     ef3 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef3_2, ef3_3))
     ef4 <- ef1 #ifelse(t<tproject, ef1, ifelse (t<tpa, ef4_2, ef4_3))
@@ -157,6 +158,7 @@ for(i in 1:n){
              ef1_2 = scen[i,c('ef1_2')],
              ef1_3 = scen[i,c('ef1_3')],
              ef1_4 = scen[i,c('ef1_4')],
+             ef1_5 = scen[i,c('ef1_5')],
              ef4p =  scen[i,c("ef4p")], #proportion of adults over 65 social distancing at 80%
              ef2_1 = scen[i,c('ef2_1')],
              ef2_2 = scen[i,c('ef2_2')],
@@ -237,6 +239,7 @@ for(i in 1:n){
              mag14 = scen[i, c('mag14')],
              mag15 = scen[i, c('mag15')],
              mag16 = scen[i, c('mag16')],
+             mag17 = scen[i, c('mag17')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -261,10 +264,12 @@ for(i in 1:n){
              t14 = scen[i,c('t14')],
              t15 = scen[i,c('t15')],
              t16 = scen[i,c('t16')],
+             t17 = scen[i,c('t17')],
              ttraj = scen[i,c('ttraj')],
              tproject = scen[i,c('tproject')],
              tpa = scen[i,c('tpa')],
              tpb = scen[i,c('tpb')],
+             tpc = scen[i,c('tpc')],
              tschool = scen[i,c('tschool')],
              ramp = scen[i,c('ramp')],
              maska = scen[i,c('maska')],
@@ -303,4 +308,8 @@ all.scen <- merge(scen, all, by = "scenario")
 
 all.scen$date <- seq(from = as.Date("2020/1/24"), to = as.Date("2020/1/24") + 500, "days")
 
-write.csv(all.scen, './allscenarios_1201.csv', row.names = F)
+write.csv(all.scen, './allscenarios.csv', row.names = F)
+
+hospscen <- all.scen %>%  filter(scenario < 13) %>%
+  select(scenalpha, date, Iht, Ict)
+write.csv(hospscen, './hospscenarios_1221.csv', row.names = F)
