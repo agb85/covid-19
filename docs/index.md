@@ -16,6 +16,7 @@ And our latest complete regional report is [here](https://agb85.github.io/covid-
 * [East Central](https://agb85.github.io/covid-19/East%20Central%20Region%20Report.html)
 * [Metro](https://agb85.github.io/covid-19/Metro%20Region%20Report.html)
 * [Northeast](https://agb85.github.io/covid-19/Northeast%20Region%20Report.html)
+* [Northwest](https://agb85.github.io/covid-19/Northwest%20Region%20Report.html)
 * [San Luis Valley](https://agb85.github.io/covid-19/San%20Luis%20Valley%20Region%20Report.html)
 * [South Central](https://agb85.github.io/covid-19/South%20Central%20Region%20Report.html)
 * [Southeast](https://agb85.github.io/covid-19/Southeast%20Region%20Report.html)
