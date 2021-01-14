@@ -16,6 +16,7 @@ And our latest complete regional report is [here](https://agb85.github.io/covid-
 * [East Central](https://agb85.github.io/covid-19/East%20Central%20Region%20Report.html)
 * [Metro](https://agb85.github.io/covid-19/Metro%20Region%20Report.html)
 * [Northeast](https://agb85.github.io/covid-19/Northeast%20Region%20Report.html)
+* [Northwest](https://agb85.github.io/covid-19/Northwest%20Region%20Report.html)
 * [San Luis Valley](https://agb85.github.io/covid-19/San%20Luis%20Valley%20Region%20Report.html)
 * [South Central](https://agb85.github.io/covid-19/South%20Central%20Region%20Report.html)
 * [Southeast](https://agb85.github.io/covid-19/Southeast%20Region%20Report.html)
@@ -36,7 +37,14 @@ And our latest complete regional report is [here](https://agb85.github.io/covid-
 #### State-level Documentation
 [July 1st, 2020](https://agb85.github.io/covid-19/SEIR%20Documentation_20200701.pdf)
 
+#### Regional Model Documentation
+[October 11th, 2020](https://agb85.github.io/covid-19/Regional%20Model%20Documentation_20201111.pdf)
+
+[December 22nd, 2020](https://agb85.github.io/covid-19/Regional%20Model%20Documentation_20201222.pdf)
+
 #### Regional Reports
+[December 23rd, 2020](https://agb85.github.io/covid-19/Regional%20Report_20201223.html)
+
 [December 16th, 2020](https://agb85.github.io/covid-19/Regional%20Report_20201216.html)
 
 [December 10th, 2020](https://agb85.github.io/covid-19/Regional%20Report_20201210.html)
