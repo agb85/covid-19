@@ -3,7 +3,7 @@
 
 setwd("C:/Users/buchwala/OneDrive - The University of Colorado Denver/Covid-private/Rfiles/covid_private") 
 pop <- read.csv('./copop.csv')
-pIDstate <-read.csv("C:/Users/buchwala/OneDrive - The University of Colorado Denver/Carlton Lab Folder/COVID19/RegionalModels/DATA/pIDstate1228.csv", header = TRUE, na.strings =".")
+#pIDstate <-read.csv("C:/Users/buchwala/OneDrive - The University of Colorado Denver/Carlton Lab Folder/COVID19/RegionalModels/DATA/pIDstate1228.csv", header = TRUE, na.strings =".")
 
 
 # load packages
@@ -24,7 +24,7 @@ seir1 <- function(t, x, parms) {
     
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, ifelse(t<t6, mag5, ifelse(t<t6a, mag6, ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, 
            ifelse(t<t8, mag7, ifelse (t<t9, mag8, ifelse(t<t10, mag9, ifelse (t<t11, mag10, ifelse(t<t12,mag11, ifelse(t<t13,mag12, ifelse(t<t14, mag13, ifelse(t<t15,mag14, ifelse(t<t16, mag15, ifelse(t<t17, mag16, 
-           ifelse(t<t18, mag17, ifelse(t<t19, mag18, ifelse(t<ttraj, mag19, ifelse(t<tproject,traj, ifelse(t<tpa, ef1_2, ifelse (t<tpb, ef1_3, ifelse(t<tpc, ef1_4, ef1_5)))))))))))))))))))))))))))
+           ifelse(t<t18, mag17, ifelse(t<t19, mag18, ifelse(t<t20, mag19, ifelse(t<ttraj, mag20, ifelse(t<tproject,traj, ifelse(t<tpa, ef1_2, ifelse (t<tpb, ef1_3, ifelse(t<tpc, ef1_4, ef1_5))))))))))))))))))))))))))))
     ef4 <- ef1
     
     CT  <- ifelse(t < t6, 0, pCT)
@@ -47,13 +47,13 @@ seir1 <- function(t, x, parms) {
     cc3 <- ifelse(t < 147, cc3a, ifelse(t < 234, cc3b, cc3c))
     cc4 <- ifelse(t < 147, cc4a, ifelse(t < 234, cc4b, cc4c))
     
-    vac1 <- ifelse(t<359, 0, ifelse(t< 380, vac1, ifelse(t<390, vac1a, ifelse(t<tvacend, vac1b,0))))
-    vac2 <- ifelse(t<359, 0, ifelse(t< 380, vac2, ifelse(t<390, vac2a, ifelse(t<tvacend, vac2b,0))))
-    vac3 <- ifelse(t<359, 0, ifelse(t< 380, vac3, ifelse(t<390, vac3a, ifelse(t<tvacend, vac3b,0))))
-    vac4 <- ifelse(t<359, 0, ifelse(t< 380, vac4, ifelse(t<390, vac4a, ifelse(t<tvacend, vac4b,0))))
+    vac1 <- ifelse(t<359, 0, ifelse(t< 380, vac1*0.9, ifelse(t<400, vac1a*0.9, ifelse(t<tvacend, vac1b*0.9,0))))
+    vac2 <- ifelse(t<359, 0, ifelse(t< 380, vac2*0.9, ifelse(t<400, vac2a*0.9, ifelse(t<tvacend, vac2b*0.9,0))))
+    vac3 <- ifelse(t<359, 0, ifelse(t< 380, vac3*0.9, ifelse(t<400, vac3a*0.9, ifelse(t<tvacend, vac3b*0.9,0))))
+    vac4 <- ifelse(t<359, 0, ifelse(t< 380, vac4*0.9, ifelse(t<400, vac4a*0.9, ifelse(t<tvacend, vac4b*0.9,0))))
     
     
-    dS1  <-    - (I1+I2+I3+I4)*(beta*temp*lambda*S1*(1-ef1))/N - (beta*temp*S1*(A1+A2+A3+A4)*(1-ef1))/N + (R1+Rh1+Rc1)*(1/dimmuneI) + RA1*(1/dimmuneA) - vac1 + V1*(1/vd)
+    dS1  <-    - (I1+I2+I3+I4)*(beta*temp*lambda*S1*(1-ef1))/N - (beta*temp*S1*(A1+A2+A3+A4)*(1-ef1))/N + (R1+Rh1+Rc1)*(1/dimmuneI) + RA1*(1/dimmuneA) - vac1*(S1/n1) + V1*(1/vd)
     dE1  <-    - E1/alpha   + (I1+I2+I3+I4)*(beta*temp*lambda*S1*(1-ef1))/N + (beta*temp*S1*(A1+A2+A3+A4)*(1-ef1))/N 
     dI1  <- (E1*pS1)/alpha - I1*(gamma) -  I1*CT
     dII1 <-                         (I1+A1)*CT - II1*gamma
@@ -64,10 +64,10 @@ seir1 <- function(t, x, parms) {
     dRA1 <-  (A1 + II1*(1-pS1))*gamma                - RA1*(1/dimmuneA)
     dRh1 <- (1-dh1)*(Ih1/hlos1) - Rh1*(1/dimmuneI)
     dRc1 <- (1-dc1)*(Ic1/clos1) - Rc1*(1/dimmuneI)
-    dV1  <- vac1 - V1*(1/vd)
+    dV1  <- vac1*(S1/n1) - V1*(1/vd)
     dD1  <-     dc1*Ic1*(1/clos1) + dh1*(Ih1/hlos1)+ dnh1*(I1+II1*pS1)*gamma
     
-    dS2  <-    - (I1+I2+I3+I4)*(beta*temp*lambda*S2*(1-ef1))/N - (beta*temp*S2*(A1+A2+A3+A4)*(1-ef1))/N + (R2+Rh2+Rc2)*(1/dimmuneI) + RA2*(1/dimmuneA)  - vac2 + V2*(1/vd)
+    dS2  <-    - (I1+I2+I3+I4)*(beta*temp*lambda*S2*(1-ef1))/N - (beta*temp*S2*(A1+A2+A3+A4)*(1-ef1))/N + (R2+Rh2+Rc2)*(1/dimmuneI) + RA2*(1/dimmuneA)  - vac2*(S2/n2) + V2*(1/vd)
     dE2  <-    - E2/alpha   + (I1+I2+I3+I4)*(beta*temp*lambda*S2*(1-ef1))/N + (beta*temp*S2*(A1+A2+A3+A4)*(1-ef1))/N 
     dI2  <- (E2*pS2)/alpha - I2*(gamma) -  I2*CT
     dII2 <-                         (I2+A2)*CT - II2*gamma
@@ -78,10 +78,10 @@ seir1 <- function(t, x, parms) {
     dRA2 <-  (A2 + II2*(1-pS2))*gamma                - RA2*(1/dimmuneA)
     dRh2 <- (1-dh2)*(Ih2/hlos2) - Rh2*(1/dimmuneI)
     dRc2 <- (1-dc2)*(Ic2/clos2) - Rc2*(1/dimmuneI)
-    dV2  <- vac2 - V2*(1/vd)
+    dV2  <- vac2*(S2/n2) - V2*(1/vd)
     dD2  <-     dc2*Ic2*(1/clos2) + dh2*Ih2*(1/hlos2)+ dnh2*(I2+II2*pS2)*gamma
     
-    dS3  <-    - (I1+I2+I3+I4)*(beta*temp*lambda*S3*(1-ef1))/N - (beta*temp*S3*(A1+A2+A3+A4)*(1-ef1))/N + (R3+Rh3+Rc3)*(1/dimmuneI) + RA3*(1/dimmuneA) - vac3 + V3*(1/vd)
+    dS3  <-    - (I1+I2+I3+I4)*(beta*temp*lambda*S3*(1-ef1))/N - (beta*temp*S3*(A1+A2+A3+A4)*(1-ef1))/N + (R3+Rh3+Rc3)*(1/dimmuneI) + RA3*(1/dimmuneA) - vac3*(S3/n3) + V3*(1/vd)
     dE3  <-    - E3/alpha   + (I1+I2+I3+I4)*(beta*temp*lambda*S3*(1-ef1))/N + (beta*temp*S3*(A1+A2+A3+A4)*(1-ef1))/N 
     dI3  <- (E3*pS3)/alpha - I3*(gamma)  - I3*CT
     dII3 <-                         (I3+A3)*CT - II3*gamma
@@ -92,10 +92,10 @@ seir1 <- function(t, x, parms) {
     dRA3 <-  (A3 + II3*(1-pS3))*gamma                - RA3*(1/dimmuneA)
     dRh3 <- (1-dh3)*(Ih3/hlos3) - Rh3*(1/dimmuneI)
     dRc3 <- (1-dc3)*(Ic3/clos3) - Rc3*(1/dimmuneI)
-    dV3  <- vac3 - V3*(1/vd)
+    dV3  <- vac3*(S3/n3) - V3*(1/vd)
     dD3  <-    dc3 *Ic3*(1/clos3) + dh3*Ih3*(1/hlos3) + dnh3*(I3+II3*pS3)*gamma
     
-    dS4  <-    - (I1+I2+I3+I4)*(beta*temp*lambda*S4*(1-ef4))/N - (beta*temp*S4*(A1+A2+A3+A4)*(1-ef4))/N + (R4+Rh4+Rc4)*(1/dimmuneI)+RA4*(1/dimmuneA)  - vac4 + V4*(1/vd)
+    dS4  <-    - (I1+I2+I3+I4)*(beta*temp*lambda*S4*(1-ef4))/N - (beta*temp*S4*(A1+A2+A3+A4)*(1-ef4))/N + (R4+Rh4+Rc4)*(1/dimmuneI)+RA4*(1/dimmuneA)  - vac4*(S4/n4) + V4*(1/vd)
     dE4  <-    - E4/alpha   + (I1+I2+I3+I4)*(beta*temp*lambda*S4*(1-ef4))/N + (beta*temp*S4*(A1+A2+A3+A4)*(1-ef4))/N 
     dI4  <- (E4*pS4)/alpha - I4*(gamma)  - I4*CT
     dII4 <-                         (I4+A4)*CT - II4*gamma
@@ -106,7 +106,7 @@ seir1 <- function(t, x, parms) {
     dRA4 <-  (A4 + II4*(1-pS4))*gamma                - RA4*(1/dimmuneA)
     dRh4 <- (1-dh4)*(Ih4/hlos4) - Rh4*(1/dimmuneI)
     dRc4 <- (1-dc4)*(Ic4/clos4) - Rc4*(1/dimmuneI)
-    dV4  <- vac4 - V4*(1/vd)
+    dV4  <- vac4*(S4/n4) - V4*(1/vd)
     dD4  <-    dc4* Ic4*(1/clos4) + dh4*Ih4*(1/hlos4) + dnh4*(I4+II4*pS4)*gamma
     
     
@@ -116,6 +116,8 @@ seir1 <- function(t, x, parms) {
                   dS3, dE3, dI3, dII3, dIh3, dIc3, dA3, dR3, dRA3, dRh3, dRc3, dV3, dD3,
                   dS4, dE4, dI4, dII4, dIh4, dIc4, dA4, dR4, dRA4, dRh4, dRc4, dV4, dD4), 
                 
+                incI = (I1 + I2 + I3 + I4)/9,
+                incA = (A1 + A2 + A3 + A4)/9,
                 Iht = Ih1+Ih2+Ih4+Ih3+Ic1+Ic2+Ic4+Ic3, 
                 Ict = Ic1+Ic2+Ic4+Ic3,
                 Iht1 = Ih1+Ic1,
@@ -123,11 +125,8 @@ seir1 <- function(t, x, parms) {
                 Iht3 = Ih3+Ic3,
                 Iht4 = Ih4+Ic4,
                 Dt = D1 + D2 + D3 + D4,
-                Rt = R1+Rh1+Rc1+D1+R2+Rh2+Rc2+D2+R3+Rh3+Rc3+D3+R4+Rh4+Rc4+D4 + RA1 + RA2 + RA3 + RA4,
-                Rt1 = R1+RA1 + Rh1+Rc1+D1,
-                Rt2 = R2+RA2 + Rh2+Rc2+D2,
-                Rt3 = R3+RA3 + Rh3+Rc3+D3,
-                Rt4 = R4+RA4 + Rh4+Rc4+D4,
+                Rt = R1+Rh1+Rc1+D1+R2+Rh2+Rc2+D2+R3+Rh3+Rc3+D3+R4+Rh4+Rc4+D4+RA1+RA2+RA3+RA4,
+                Rht = Rh1+Rc1+Rh2+Rc2+Rh3+Rc3+Rh4+Rc4+Ih1+Ih2+Ih4+Ih3+Ic1+Ic2+Ic4+Ic3,
                 Itotal = I1+I2+I3+I4 +A1+A2+A3+A4,
                 Etotal = E1 + E2 + E3 + E4,
                 Vt = V1 + V2 + V3 + V4,
@@ -135,8 +134,6 @@ seir1 <- function(t, x, parms) {
   })
 }
 
-    
- 
 #temptheory <- read.csv('./temptheory.csv')
 
 # rows (n) to represent scenario numbers
@@ -151,10 +148,10 @@ for(i in 1:n){
              gamma = 1/9,
              alpha = 4,
              Cp = pop[i, c('Cp')], # called back from population spreadsheet
-             n1 = pop[i, c('n1')],
-             n2 = pop[i, c('n2')],
-             n3 = pop[i, c('n3')],
-             n4 = pop[i, c('n4')],
+             n1 = scen[i,c('n1')],
+             n2 = scen[i, c('n2')],
+             n3 = scen[i, c('n3')],
+             n4 = scen[i, c('n4')],
              ef1_1 = scen[i,c('ef1_1')],
              ef1_2 = scen[i,c('ef1_2')],
              ef1_3 = scen[i,c('ef1_3')],
@@ -257,6 +254,7 @@ for(i in 1:n){
              mag17 = scen[i, c('mag17')],
              mag18 = scen[i, c('mag18')],
              mag19 = scen[i, c('mag19')],
+             mag20 = scen[i, c('mag20')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -284,6 +282,7 @@ for(i in 1:n){
              t17 = scen[i,c('t17')],
              t18 = scen[i,c('t18')],
              t19 = scen[i,c('t19')],
+             t20 = scen[i,c('t20')],
              ttraj = scen[i,c('ttraj')],
              tvacend = scen[i,c('tvacend')],
              tproject = scen[i,c('tproject')],
@@ -327,4 +326,4 @@ all.scen <- merge(scen, all, by = "scenario")
 
 all.scen$date <- seq(from = as.Date("2020/1/24"), to = as.Date("2020/1/24") + 500, "days")
 
-write.csv(all.scen, './scen20210111.csv', row.names = F)
+write.csv(all.scen, './scen20210125.csv', row.names = F)
