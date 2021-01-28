@@ -43,6 +43,10 @@ And our latest complete regional report is [here](https://agb85.github.io/covid-
 [December 22nd, 2020](https://agb85.github.io/covid-19/Regional%20Model%20Documentation_20201222.pdf)
 
 #### Regional Reports
+[January 20th, 2021](https://agb85.github.io/covid-19/Regional%20Report_20210120.html)
+
+[January 13th, 2021](https://agb85.github.io/covid-19/Regional%20Report_20210113.html)
+
 [December 23rd, 2020](https://agb85.github.io/covid-19/Regional%20Report_20201223.html)
 
 [December 16th, 2020](https://agb85.github.io/covid-19/Regional%20Report_20201216.html)
