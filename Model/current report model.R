@@ -10,6 +10,7 @@ scen <- read.csv('./Model params.csv')
 
 # load packages
 library(deSolve)
+library(lubridate)
 
 # read in spreadsheet
 setwd("C:/Users/buchwala/OneDrive - The University of Colorado Denver/Covid-private/Rfiles/covid_private")
@@ -23,7 +24,7 @@ seir1 <- function(t, x, parms) {
    
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, ifelse(t<t6, mag5, ifelse(t<t6a, mag6, ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, 
            ifelse(t<t8, mag7, ifelse (t<t9, mag8, ifelse(t<t10, mag9, ifelse (t<t11, mag10, ifelse(t<t12,mag11, ifelse(t<t13,mag12, ifelse(t<t14, mag13, ifelse(t<t15,mag14, ifelse(t<t16, mag15, ifelse(t<t17, mag16, 
-           ifelse(t<t18, mag17, ifelse(t<t19, mag18, ifelse(t<t20, mag19, ifelse(t<t21, mag20, ifelse(t<t22, mag21, ifelse(t<ttraj, mag22, ifelse(t<tproject,traj, ifelse(t<tpa, ef1_2, ifelse (t<tpb, ef1_3, ifelse(t<tpc, ef1_4, ef1_5))))))))))))))))))))))))))))))
+           ifelse(t<t18, mag17, ifelse(t<t19, mag18, ifelse(t<t20, mag19, ifelse(t<t21, mag20, ifelse(t<t22, mag21, ifelse(t<t23, mag22, ifelse(t<ttraj, mag23, ifelse(t<tproject,traj, ifelse(t<tpa, ef1_2, ifelse (t<tpb, ef1_3, ifelse(t<tpc, ef1_4, ef1_5)))))))))))))))))))))))))))))))
     
     
     hlos4 <- ifelse(t<190, hlos4, hlos4a)
@@ -31,9 +32,9 @@ seir1 <- function(t, x, parms) {
     hlos2 <- ifelse(t<190, hlos2,  hlos2a)
     hlos1 <- ifelse(t<190, hlos1,  hlos1a)
     
-    hosp2 <- ifelse(t < 147, hosp2, ifelse(t < 234, hosp2b, hosp2c))
-    hosp3 <- ifelse(t < 147, hosp3, ifelse(t < 234, hosp3b, ifelse(t<tproject, hosp3c, ifelse(t<tpa, hosp3v1, ifelse(t<tpb, hosp3v2, ifelse(t<tpc, hosp3v3, hosp3v4))))))
-    hosp4 <- ifelse(t < 147, hosp4, ifelse(t < 234, hosp4b, ifelse(t<tproject, hosp4c, ifelse(t<tpa, hosp4v1, ifelse(t<tpb, hosp4v2, ifelse(t<tpc, hosp4v3, hosp4v4))))))
+    hosp2 <- ifelse(t < 147, hosp2, ifelse(t < 250, hosp2b, hosp2c))
+    hosp3 <- ifelse(t < 147, hosp3, ifelse(t < 250, hosp3b, ifelse(t<tproject, hosp3c, ifelse(t<tpa, hosp3v1, ifelse(t<tpb, hosp3v2, ifelse(t<tpc, hosp3v3, hosp3v4))))))
+    hosp4 <- ifelse(t < 147, hosp4, ifelse(t < 250, hosp4b, ifelse(t<tproject, hosp4c, ifelse(t<tpa, hosp4v1, ifelse(t<tpb, hosp4v2, ifelse(t<tpc, hosp4v3, hosp4v4))))))
     
     
     dh3 <- ifelse(t<tproject, dh3, ifelse(t<tpa, dh3v1, ifelse(t<tpb, dh3v2, ifelse(t<tpc, dh3v3, dh3v4))))
@@ -43,20 +44,20 @@ seir1 <- function(t, x, parms) {
     dnh4 <- ifelse(t<tproject, dnh4, ifelse(t<tpa, dnh4v1, ifelse(t<tpb, dnh4v2, ifelse(t<tpc, dnh4v3, dnh4v4))))
     
 
-    vac1 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac1_*0.52, ifelse(t<tv3+14, vac1a*0.52, ifelse(t<tv4+14, vac1b*0.52,ifelse(t<tv5+14, vac1c*0.52, ifelse(t<tv6+14, vac1d*0.52, ifelse(t<(tvacend+14), vac1e*0.52,0)))))))
-    vac2 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac2_*0.52, ifelse(t<tv3+14, vac2a*0.52, ifelse(t<tv4+14, vac2b*0.52,ifelse(t<tv5+14, vac2c*0.52, ifelse(t<tv6+14, vac2d*0.52, ifelse(t<(tvacend+14), vac2e*0.52,0)))))))
-    vac3 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac3_*0.52, ifelse(t<tv3+14, vac3a*0.52, ifelse(t<tv4+14, vac3b*0.52,ifelse(t<tv5+14, vac3c*0.52, ifelse(t<tv6+14, vac3d*0.52, ifelse(t<(tvacend+14), vac3e*0.52,0)))))))
-    vac4 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac4_*0.52, ifelse(t<tv3+14, vac4a*0.52, ifelse(t<tv4+14, vac4b*0.52,ifelse(t<(tv5+14), vac4c*0.52,0)))))
-
-    vac1_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac1_*0.38, ifelse(t<tv3+32, vac1a*0.38, ifelse(t<tv4+32, vac1b*0.38,ifelse(t<tvacend+32, vac1c*0.38,ifelse(t<tv6+14, vac1d*0.38, ifelse(t<(tvacend+14), vac1e*0.38,0)))))))
-    vac2_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac2_*0.38, ifelse(t<tv3+32, vac2a*0.38, ifelse(t<tv4+32, vac2b*0.38,ifelse(t<tvacend+32, vac2c*0.38,ifelse(t<tv6+14, vac2d*0.38, ifelse(t<(tvacend+14), vac2e*0.38,0)))))))
-    vac3_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac3_*0.38, ifelse(t<tv3+32, vac3a*0.38, ifelse(t<tv4+32, vac3b*0.38,ifelse(t<tvacend+32, vac3c*0.38,ifelse(t<tv6+14, vac3d*0.38, ifelse(t<(tvacend+14), vac3e*0.38,0)))))))
+    vac1 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac1_*0.52, ifelse(t<tv3+14, vac1a*0.52, ifelse(t<tv4+14, vac1b*0.52,ifelse(t<(tvacend+14), vac1c*0.52,0)))))
+    vac2 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac2_*0.52, ifelse(t<tv3+14, vac2a*0.52, ifelse(t<tv4+14, vac2b*0.52,ifelse(t<(tvacend+14), vac2c*0.52,0)))))
+    vac3 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac3_*0.52, ifelse(t<tv3+14, vac3a*0.52, ifelse(t<tv4+14, vac3b*0.52,ifelse(t<(tvacend+14), vac3c*0.52,0)))))
+    vac4 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac4_*0.52, ifelse(t<tv3+14, vac4a*0.52, ifelse(t<tv4+14, vac4b*0.52,ifelse(t<(tvacend+14), vac4c*0.52,0)))))
+    
+    vac1_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac1_*0.38, ifelse(t<tv3+32, vac1a*0.38, ifelse(t<tv4+32, vac1b*0.38, ifelse(t<tvacend+32, vac1c*0.38,0)))))
+    vac2_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac2_*0.38, ifelse(t<tv3+32, vac2a*0.38, ifelse(t<tv4+32, vac2b*0.38,ifelse(t<tvacend+32, vac2c*0.38,0)))))
+    vac3_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac3_*0.38, ifelse(t<tv3+32, vac3a*0.38, ifelse(t<tv4+32, vac3b*0.38,ifelse(t<tvacend+32, vac3c*0.38,0)))))
     vac4_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac4_*0.38, ifelse(t<tv3+32, vac4a*0.38, ifelse(t<tv4+32, vac4b*0.38,ifelse(t<tvacend+32, vac4c*0.38,0)))))
     
-    vj1 <- ifelse(t<tv3+28, 0, ifelse(t<tvja, vj1*0.72, ifelse(t<tvjb, vj1a*0.72, ifelse(t<tvacend, vj1b*0.72, 0))))
-    vj2 <- ifelse(t<tv3+28, 0, ifelse(t<tvja, vj2*0.72, ifelse(t<tvjb, vj2a*0.72, ifelse(t<tvacend, vj2b*0.72, 0))))
-    vj3 <- ifelse(t<tv3+28, 0, ifelse(t<tvja, vj3*0.72, ifelse(t<tvjb, vj3a*0.72, ifelse(t<tvacend, vj3b*0.72, 0))))
-    vj4 <- ifelse(t<tv3+28, 0, vj4*0.72)
+    vj1 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb, vj1*0.72, vj1a*0.72))
+    vj2 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb, vj2*0.72, vj2a*0.72))
+    vj3 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb, vj3*0.72, vj3a*0.72))
+    vj4 <- ifelse(t<tvja+28, 0, vj4*0.72)
     
     
     
@@ -245,6 +246,7 @@ for(i in 1:n){
              mag20 = scen[i, c('mag20')],
              mag21 = scen[i, c('mag21')],
              mag22 = scen[i, c('mag22')],
+             mag23 = scen[i, c('mag23')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -275,6 +277,7 @@ for(i in 1:n){
              t20 = scen[i,c('t20')],
              t21 = scen[i,c('t21')],
              t22 = scen[i,c('t22')],
+             t23 = scen[i,c('t23')],
              ttraj = scen[i,c('ttraj')],
              tvacend = scen[i,c('tvacend')],
              tv1 = scen[i,c('tv1')],
@@ -343,22 +346,22 @@ write.csv(all.scen, "/Users/emilywu883/Documents/CU Anschutz/COVID-19/Modeling T
 
 ##DATE of ICU Capacity reached 
 
-ICUthresh <- all.scen %>% filter(Ict > 1325) %>% select(scenario, scenalpha, date) %>% rename(capdate = date)  
-ICUthresh2 <- ICUthresh %>% group_by(scenario, scenalpha) %>% slice(1)
+#ICUthresh <- all.scen %>% filter(Ict > 1325) %>% select(scenario, scenalpha, date) %>% rename(capdate = date)  
+#ICUthresh2 <- ICUthresh %>% group_by(scenario, scenalpha) %>% slice(1)
 
-library(plyr) ###Annoying thing, for some reason if this is loaded before it prevents rename from working 
+#library(plyr) ###Annoying thing, for some reason if this is loaded before it prevents rename from working 
 ##Date of ICU peak and need at peak
-maxc <- ddply(all.scen, .(scenario, scenalpha), transform, maxc = max(Ict))
-detach(package:plyr)
-cmax <- maxc %>% filter(Ict == maxc) %>%
-  select(scenario, scenalpha, date, Ict) %>%
-  rename(maxdate = date) %>%
-  rename(maxICU = Ict)
+#maxc <- ddply(all.scen, .(scenario, scenalpha), transform, maxc = max(Ict))
+#detach(package:plyr)
+#cmax <- maxc %>% filter(Ict == maxc) %>%
+  #select(scenario, scenalpha, date, Ict) %>%
+  #rename(maxdate = date) %>%
+  #rename(maxICU = Ict)
 
-table <- filter(merge(ICUthresh2, cmax, by = c('scenario', 'scenalpha'), all = TRUE), !grepl("week", scenalpha))
-table$capdate <- as.Date(table$capdate, "%m/%d/%Y")
-table$maxdate <-as.Date(table$maxdate, "%m/%d/%Y")
-table$maxICU <- label_comma()(ceiling(table$maxICU))
+#table <- filter(merge(ICUthresh2, cmax, by = c('scenario', 'scenalpha'), all = TRUE), !grepl("week", scenalpha))
+#table$capdate <- as.Date(table$capdate, "%m/%d/%Y")
+#table$maxdate <-as.Date(table$maxdate, "%m/%d/%Y")
+#table$maxICU <- label_comma()(ceiling(table$maxICU))
 
 #Cumulative infections through June 1st
 ###THIS WILL NOT WORK ANYMORE - delete - remove from table or use the sum of Einc
@@ -367,22 +370,34 @@ table$maxICU <- label_comma()(ceiling(table$maxICU))
 #             select = c(scenario, scenalpha, cuminf)), !grepl("week", scenalpha))
 #t1$cuminf <- label_comma()(signif(t1$cuminf, 3))
 
+#Cumulative infections through June 1st
+infectJun <- mutate(all.scen, cuminf = cumsum(Einc))
+infectJun <- filter(subset(infectJun, time==494,
+                select = c(scenario, scenalpha, cuminf)), !grepl("week", scenalpha))
+infectJun$IJun <- infectJun$cuminf
+
+#Cumulative infections through present (used to calculate excess infections from now until June 1st)
+infectPresent <- mutate(all.scen, cuminf = cumsum(Einc))
+infectPresent <- filter(subset(infectPresent, time==as.numeric(floor_date(today(), "week", 1)-as.Date("2020-01-24")),
+                               select = c(scenario, scenalpha, cuminf)), !grepl("week", scenalpha))
+infectPresent$IPresent <- infectPresent$cuminf
+
 #Cumulative deaths through June 1st
 deathsJun <- filter(subset(all.scen, time == 494,
                            select = c(scenario, scenalpha, Dt)), !grepl("week", scenalpha))
-deathsJun$DJun <- signif(deathsJun$Dt, 3)
+deathsJun$DJun <- deathsJun$Dt
 
 # deaths through present (used to calculate excess deaths from now until June 1st)
 deathsPresent <- filter(subset(all.scen, time == as.numeric(floor_date(today(), "week", 1)-as.Date("2020-01-24")),
                                select = c(scenario, scenalpha, Dt)), !grepl("week", scenalpha))
-deathsPresent$DPresent <- signif(deathsPresent$Dt, 3)
+deathsPresent$DPresent <- deathsPresent$Dt
 
-table2 <- cbind(table, t1, deathsPresent, deathsJun)
-table2$DExcess <- label_comma()(table2$DJun - table2$DPresent)
-table2$DJun <- label_comma()(table2$DJun)
-table2$capdate <- ifelse(as.character(table2$capdate)=="NA", "N/A", format(table2$capdate, "%m/%d/%y"))
-table2$maxdate <- ifelse(table2$maxdate < floor_date(today(), "week", 1), "past", format(table2$maxdate, "%m/%d/%y"))
-table2 <- table2[c("scenalpha", "capdate", "maxdate", "maxICU", "cuminf", "DJun", "DExcess")]
+table2 <- cbind(infectJun, infectPresent, deathsJun, deathsPresent)
+table2$IExcess <- label_comma()(signif(table2$IJun - table2$IPresent, 3))
+table2$DExcess <- label_comma(accuracy = 1)(ceiling(table2$DJun - table2$DPresent))
+#table2$capdate <- ifelse(as.character(table2$capdate)=="NA", "N/A", format(table2$capdate, "%m/%d/%y"))
+#table2$maxdate <- ifelse(table2$maxdate < floor_date(today(), "week", 1), "past", format(table2$maxdate, "%m/%d/%y"))
+table2 <- table2[c("scenalpha", "IExcess", "DExcess")]
 table2
 
 write.csv(table2, "/Users/emilywu883/Documents/CU Anschutz/COVID-19/Modeling Team/Data Sets/Output Data/table2.csv", row.names = FALSE)
