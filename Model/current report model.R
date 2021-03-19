@@ -13,18 +13,41 @@ library(deSolve)
 library(lubridate)
 
 # read in spreadsheet
-setwd("C:/Users/buchwala/OneDrive - The University of Colorado Denver/Covid-private/Rfiles/covid_private")
-scen <- read.csv('./Model params.csv')
+setwd("C:/Users/buchwala/OneDrive - The University of Colorado Denver/Covid-private/Rfiles/covid-19")
+scen <- read.csv('./Model/Model params.csv')
+variantp <- read.csv("./Data/proportionvariantovertime.csv", header = TRUE)
+
+
+#####THIS SECTION IS NECESSARY TO UPDATE TO MAKE VARIANT SIMS WORK###########################
+#########Not needed if not doing variant sims#################
+###Update to set current "true" TC value assuming no variant
+lastmag <- 0.7931  ##last mag value estimated
+pvar <- 1.5  ##Proportionate estimated increase in infectiousness
+theta <- 0.0566  ##Estimated prevalence of variant at fitday-13 (take from variantp)
+TC <- (lastmag-theta +pvar*theta)/(1-theta+pvar*theta) ##Backwards calc of TC "without variant"
+
 
 # build SEIR model as an R function
 seir1 <- function(t, x, parms) {
   
   with(as.list(c(parms, x)), {
     
-   
+    ##Time varying variant prevalence: thetarate = 1 gives logistic growth curve, thetarate = 2 gives second growth curve 
+    ##This statement could be extended for more growth curves if desired using additional nested ifelses
+    theta <- ifelse (t > 100, ifelse(var_on == 0, 0, ifelse(thetarate == 1,variantp$theta[[t]], variantp$theta2[[t]])),0) 
+    
+    #Time varying TC with variant at current trajectory
+    TCv <- pvar*TC+1-pvar
+    TCa <- TC*(1-theta)+TCv*theta
+    
+    #Time varying TC with variant when trajectory changes
+    TCvchange <-pvar*TCchange+1-pvar
+    TCachange <- TCchange*(1-theta)+TCvchange*theta
+
+    ##This has been updated to include variant projections explicitly    
     ef1 <- ifelse(t<t2, mag1, ifelse(t<t2a, mag2, ifelse(t<t3, mag2a, ifelse(t<t3a, mag3, ifelse(t<t4, mag3a, ifelse(t<t5, mag4, ifelse(t<t6, mag5, ifelse(t<t6a, mag6, ifelse (t<t6b, mag6a, ifelse(t<t7, mag6b, 
            ifelse(t<t8, mag7, ifelse (t<t9, mag8, ifelse(t<t10, mag9, ifelse (t<t11, mag10, ifelse(t<t12,mag11, ifelse(t<t13,mag12, ifelse(t<t14, mag13, ifelse(t<t15,mag14, ifelse(t<t16, mag15, ifelse(t<t17, mag16, 
-           ifelse(t<t18, mag17, ifelse(t<t19, mag18, ifelse(t<t20, mag19, ifelse(t<t21, mag20, ifelse(t<t22, mag21, ifelse(t<t23, mag22, ifelse(t<ttraj, mag23, ifelse(t<tproject,traj, ifelse(t<tpa, ef1_2, ifelse (t<tpb, ef1_3, ifelse(t<tpc, ef1_4, ef1_5)))))))))))))))))))))))))))))))
+           ifelse(t<t18, mag17, ifelse(t<t19, mag18, ifelse(t<t20, mag19, ifelse(t<t21, mag20, ifelse(t<t22, mag21, ifelse(t<t23, mag22, ifelse(t<t24, mag23, ifelse(t<ttraj, mag24, ifelse(t<tproject,ifelse(var_on == 1, TCa, ifelse(var_on == 2, TCa, traj)), ifelse(var_on == 1, TCa, ifelse(var_on == 2, TCachange, ef1_2)))))))))))))))))))))))))))))))
     
     
     hlos4 <- ifelse(t<190, hlos4, hlos4a)
@@ -32,18 +55,35 @@ seir1 <- function(t, x, parms) {
     hlos2 <- ifelse(t<190, hlos2,  hlos2a)
     hlos1 <- ifelse(t<190, hlos1,  hlos1a)
     
+    ##Define hospitalization rate for variant projections
+    hosp3v <- hosp3c*vhi
+    hosp3d <- hosp3c*(1-theta)+hosp3v*theta
+    hosp4v <- hosp4c*vhi
+    hosp4d <- hosp4c*(1-theta)+hosp4v*theta
+    
     hosp2 <- ifelse(t < 147, hosp2, ifelse(t < 250, hosp2b, hosp2c))
-    hosp3 <- ifelse(t < 147, hosp3, ifelse(t < 250, hosp3b, ifelse(t<tproject, hosp3c, ifelse(t<tpa, hosp3v1, ifelse(t<tpb, hosp3v2, ifelse(t<tpc, hosp3v3, hosp3v4))))))
-    hosp4 <- ifelse(t < 147, hosp4, ifelse(t < 250, hosp4b, ifelse(t<tproject, hosp4c, ifelse(t<tpa, hosp4v1, ifelse(t<tpb, hosp4v2, ifelse(t<tpc, hosp4v3, hosp4v4))))))
+    hosp3 <- ifelse(t < 147, hosp3, ifelse(t < 250, hosp3b, ifelse(t<tproject, hosp3c, ifelse(var_on > 0, hosp3d, hosp3c))))
+    hosp4 <- ifelse(t < 147, hosp4, ifelse(t < 250, hosp4b, ifelse(t<tproject, hosp4c, ifelse(var_on > 0, hosp4d, hosp4c))))
     
+    ##Define hospitalization death rates for variant projections
+    dh3v <- dh3*vdhi
+    dh3d <- dh3*(1-theta)+dh3v*theta
+    dh4v <- dh4*vdhi
+    dh4d <- dh4*(1-theta)+dh4v*theta
     
-    dh3 <- ifelse(t<tproject, dh3, ifelse(t<tpa, dh3v1, ifelse(t<tpb, dh3v2, ifelse(t<tpc, dh3v3, dh3v4))))
-    dh4 <- ifelse(t<tproject, dh4, ifelse(t<tpa, dh4v1, ifelse(t<tpb, dh4v2, ifelse(t<tpc, dh4v3, dh4v4))))
+    dh3 <- ifelse(t<tproject, dh3, ifelse(var_on > 0, dh3d, dh3))
+    dh4 <- ifelse(t<tproject, dh4, ifelse(var_on > 0, dh4d, dh4))
     
-    dnh3 <- ifelse(t<tproject, dnh3, ifelse(t<tpa, dnh3v1, ifelse(t<tpb, dnh3v2, ifelse(t<tpc, dnh3v3, dnh3v4))))
-    dnh4 <- ifelse(t<tproject, dnh4, ifelse(t<tpa, dnh4v1, ifelse(t<tpb, dnh4v2, ifelse(t<tpc, dnh4v3, dnh4v4))))
+    ##Define nonhospitalization death rates for variant projections
+    dnh3v <- dnh3*vdnhi
+    dnh3d <- dnh3*(1-theta)+dnh3v*theta
+    dnh4v <- dnh4*vdnhi
+    dnh4d <- dnh4*(1-theta)+dnh4v*theta
     
-
+    dnh3 <- ifelse(t<tproject, dnh3, ifelse(var_on > 0, dnh3d, dnh3))
+    dnh4 <- ifelse(t<tproject, dnh4, ifelse(var_on > 0, dnh4d, dnh4))
+    
+    ###In the long run, this should be replaced with spreadsheets for vaccination rates by day 
     vac1 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac1_*0.52, ifelse(t<tv3+14, vac1a*0.52, ifelse(t<tv4+14, vac1b*0.52,ifelse(t<(tvacend+14), vac1c*0.52,0)))))
     vac2 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac2_*0.52, ifelse(t<tv3+14, vac2a*0.52, ifelse(t<tv4+14, vac2b*0.52,ifelse(t<(tvacend+14), vac2c*0.52,0)))))
     vac3 <- ifelse(t<tv1+14, 0, ifelse(t< tv2+14, vac3_*0.52, ifelse(t<tv3+14, vac3a*0.52, ifelse(t<tv4+14, vac3b*0.52,ifelse(t<(tvacend+14), vac3c*0.52,0)))))
@@ -54,10 +94,10 @@ seir1 <- function(t, x, parms) {
     vac3_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac3_*0.38, ifelse(t<tv3+32, vac3a*0.38, ifelse(t<tv4+32, vac3b*0.38,ifelse(t<tvacend+32, vac3c*0.38,0)))))
     vac4_2 <- ifelse(t<tv1+32, 0, ifelse(t< tv2+32, vac4_*0.38, ifelse(t<tv3+32, vac4a*0.38, ifelse(t<tv4+32, vac4b*0.38,ifelse(t<tvacend+32, vac4c*0.38,0)))))
     
-    vj1 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb, vj1*0.72, vj1a*0.72))
-    vj2 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb, vj2*0.72, vj2a*0.72))
-    vj3 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb, vj3*0.72, vj3a*0.72))
-    vj4 <- ifelse(t<tvja+28, 0, vj4*0.72)
+    vj1 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb+28, vj1*0.72, vj1a*0.72))
+    vj2 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb+28, vj2*0.72, vj2a*0.72))
+    vj3 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb+28, vj3*0.72, vj3a*0.72))
+    vj4 <- ifelse(t<tvja+28, 0, ifelse(t<tvjb+28, vj4*0.72, 0))
     
     
     
@@ -122,7 +162,8 @@ seir1 <- function(t, x, parms) {
                 vacel2 = (S2+R2+RA2)/(n2-(V2+Ih2+D2)),
                 vacel3 = (S3+R3+RA3)/(n3-(V3+Ih3+D3)),
                 vacel4 = (S4+R4+RA4)/(n4-(V4+Ih4+D4)),
-                immune = R1+R2+R3+R4+RA1+RA2+RA3+RA4+V1 + V2 + V3 + V4))
+                immune = R1+R2+R3+R4+RA1+RA2+RA3+RA4+V1 + V2 + V3 + V4,
+                ef1, hosp3, hosp4, dh3, dh4, dnh3, dnh4))
 
   })
 }
@@ -145,15 +186,15 @@ for(i in 1:n){
              n2 = scen[i, c('n2')],
              n3 = scen[i, c('n3')],
              n4 = scen[i, c('n4')],
-             ef1_1 = scen[i,c('ef1_1')],
+             #ef1_1 = scen[i,c('ef1_1')],
              ef1_2 = scen[i,c('ef1_2')],
-             ef1_3 = scen[i,c('ef1_3')],
-             ef1_4 = scen[i,c('ef1_4')],
-             ef1_5 = scen[i,c('ef1_5')],
+             #ef1_3 = scen[i,c('ef1_3')],
+             #ef1_4 = scen[i,c('ef1_4')],
+             #ef1_5 = scen[i,c('ef1_5')],
              ef1 = 0,
-             ef2 = 0,
-             ef3 = 0,
-             ef4 = 0,
+             #ef2 = 0,
+             #ef3 = 0,
+             #ef4 = 0,
              dh1 = scen[i,c('dh1')], dh2 = scen[i,c('dh2')], dh3 = scen[i,c('dh3')],dh4 = scen[i,c('dh4')],
              dnh1 = scen[i,c('dnh1')], dnh2 = scen[i,c('dnh2')], dnh3 = scen[i,c('dnh3')],dnh4 = scen[i,c('dnh4')],
              hlos1 = scen[i,c('hlos1')],
@@ -247,6 +288,7 @@ for(i in 1:n){
              mag21 = scen[i, c('mag21')],
              mag22 = scen[i, c('mag22')],
              mag23 = scen[i, c('mag23')],
+             mag24 = scen[i, c('mag24')],
              traj = scen[i, c("traj")],
              t1 = scen[i,c('t1')],
              t2 = scen[i,c('t2')],
@@ -278,6 +320,7 @@ for(i in 1:n){
              t21 = scen[i,c('t21')],
              t22 = scen[i,c('t22')],
              t23 = scen[i,c('t23')],
+             t24 = scen[i,c('t24')],
              ttraj = scen[i,c('ttraj')],
              tvacend = scen[i,c('tvacend')],
              tv1 = scen[i,c('tv1')],
@@ -292,17 +335,17 @@ for(i in 1:n){
              tpa = scen[i,c('tpa')],
              tpb = scen[i,c('tpb')],
              tpc = scen[i,c('tpc')],
-  
-             ####Add in variant variables
-             hosp3v1 = scen[i,c('hosp3v1')],hosp3v2 = scen[i,c('hosp3v2')],
-             hosp3v3 = scen[i,c('hosp3v3')],hosp3v4 = scen[i,c('hosp3v4')],
-             hosp4v1 = scen[i,c('hosp4v1')],hosp4v2 = scen[i,c('hosp4v2')],
-             hosp4v3 = scen[i,c('hosp4v3')],hosp4v4 = scen[i,c('hosp4v4')],
-             dh3v1 = scen[i,c('dh3v1')],dh3v2 = scen[i,c('dh3v2')],dh3v3 = scen[i,c('dh3v3')],dh3v4 = scen[i,c('dh3v4')],
-             dh4v1 = scen[i,c('dh4v1')],dh4v2 = scen[i,c('dh4v2')],dh4v3 = scen[i,c('dh4v3')],dh4v4 = scen[i,c('dh4v4')],
-             dnh3v1 = scen[i,c('dnh3v1')],dnh3v2 = scen[i,c('dnh3v2')],dnh3v3 = scen[i,c('dnh3v3')],dnh3v4 = scen[i,c('dnh3v4')],
-             dnh4v1 = scen[i,c('dnh4v1')],dnh4v2 = scen[i,c('dnh4v2')],dnh4v3 = scen[i,c('dnh4v3')],dnh4v4 = scen[i,c('dnh4v4')]
-  )
+             ##Set key parameters for B.1.1.7 variant sims
+             lastmag =  scen[i,c('lastmag')], #0.7931 ##Use last estimated mag parameter to begin
+             pvar =  scen[i,c('pvar')], #1.5  #Proportionate increase in transmission due to variant (B.1.1.7 -> 1.5, California -> 1.2)
+             TCchange = scen[i,c('TCchange')], #Value that TC changes to
+             var_on = scen[i,c('var_on')], ##1 = variant on, current trajectory, 2 = variant on, change trajectory
+             thetarate = scen[i,c('thetarate')], ##0 = no variant, 1 = logistic, 2 = linear (theta2)
+             vhi = scen[i,c('vhi')], #Variant hospitalization increase
+             vdhi = scen[i,c('vdhi')],##Variant death among hospitalized increase
+             vdnhi = scen[i,c('vdnhi')]##Variant death among nonhospitalized increase
+             
+              )
   
   dt      <- seq(0, 600, 1)
   
