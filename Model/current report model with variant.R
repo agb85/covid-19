@@ -105,8 +105,8 @@ seir1 <- function(t, x, parms) {
     dnh3 <- ifelse (t < 341, dnh3, dnh3*vacrate3$dnh_mult[[t]]*vdnh)
     dnh4 <- ifelse (t < 341, dnh4, dnh4*vacrate4$dnh_mult[[t]]*vdnh)
     
-    dh3 <- ifelse (t < 341, dh3, dh3*vdnh)
-    dh4 <- ifelse (t < 341, dh4, dh4*vdnh)
+    dh3 <- ifelse (t < 341, dh3, dh3*vdh)
+    dh4 <- ifelse (t < 341, dh4, dh4*vdh)
     
     
     
