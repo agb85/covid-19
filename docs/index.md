@@ -35,6 +35,10 @@ And our latest complete regional report is [here](https://agb85.github.io/covid-
 
 ### Archives
 #### State-level Documentation
+[April 21st, 2021](https://agb85.github.io/covid-19/SEIR%20Documentation_20210421.pdf)
+
+[March 3rd, 2021](https://agb85.github.io/covid-19/SEIR%20Documentation_20210303.pdf)
+
 [February 16th, 2021](https://agb85.github.io/covid-19/SEIR%20Documentation_20210216.pdf)
 
 [January 18th, 2021](https://agb85.github.io/covid-19/SEIR%20Documentation_20210118.pdf)
