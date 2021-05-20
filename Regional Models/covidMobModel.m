@@ -1,5 +1,5 @@
 function m = covidMobModel(tVec, bMatrix, M0, modelType)
-
+% rI0 = 1;
     % Sabina/DMB mobility model (March 2021)
     % Age-structured COVID-19 model with mobility
     
@@ -213,7 +213,7 @@ function m = covidMobModel(tVec, bMatrix, M0, modelType)
             p(j + 12) = addparameter(m, ['mrna2DMar' num2str(k) 'A' num2str(i)], fc(2)*vacMat(3, i, k));
             p(j + 13) = addparameter(m, ['mrna2DApr' num2str(k) 'A' num2str(i)], fc(2)*vacMat(4, i, k));
             p(j + 14) = addparameter(m, ['jandjMar' num2str(k) 'A' num2str(i)], fc(3)*vacMat(5, i, k));
-            p(j + 15) = addparameter(m, ['jandjApr' num2str(k) 'A' num2str(i)], fc(3)*vacMat(6, i, k));
+%             p(j + 15) = addparameter(m, ['jandjApr' num2str(k) 'A' num2str(i)], fc(3)*vacMat(6, i, k));
             j = j + 16;
         end
     end
@@ -441,7 +441,7 @@ function m = covidMobModel(tVec, bMatrix, M0, modelType)
     %% Events
     
     % Initial infection January 24, 2020
-    for i = regVec
+    for i = regVec %rI0
         evt1(i) = addevent(m, '(time >= ioBegin) && (time < ioBd)', {});
         set(evt1(i), 'Name', ['Initial infection (day 24 = 01/24/2020) in region ' num2str(i)]);
         set(evt1(i), 'EventFcns', {['[' ageCat{1} 'fromR' num2str(i) '].S = ([' ageCat{1} 'fromR' num2str(i) '].S - 1)'], ...
